@@ -12,6 +12,8 @@ public class Giro : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        c.transform.Rotate(0f, 0.01f, 0f, Space.Self);
+        c.transform.Rotate(Mathf.Sin(Time.frameCount/1000)/200, 0.006f, 0f, Space.Self);
+        if (c.transform.eulerAngles.y >= 360f)
+            c.transform.eulerAngles = new Vector3(c.transform.eulerAngles.x, 0f, c.transform.eulerAngles.z);
     }
 }
