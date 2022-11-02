@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 8b9ee7892faddd540816e1135066c5d5
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Colonna MT
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: a688d2eb6a012b24595b605f5424caee, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
