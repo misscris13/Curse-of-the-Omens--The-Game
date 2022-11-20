@@ -5,8 +5,8 @@ using UnityEngine;
 public class HeadBob : MonoBehaviour {
     
     Vector3 startPos;
-    public float amplitude = 1.7f;
-    public float period = 5f;
+    public float amplitude = 0.7f;
+    public float period = 3f;
     
     protected void Start() {
         startPos = transform.position;
