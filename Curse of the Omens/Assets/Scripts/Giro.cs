@@ -7,12 +7,12 @@ public class Giro : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        c = GameObject.Find("Nubes");
+
     }
 
     // Update is called once per frame
     void Update() {
-        c.transform.Rotate(Mathf.Sin(Time.frameCount/1000)/200, 0.006f, 0f, Space.Self);
+        c.transform.Rotate(Mathf.Sin(Time.frameCount/1000)/200, 0.04f, 0f, Space.Self);
         if (c.transform.eulerAngles.y >= 360f)
             c.transform.eulerAngles = new Vector3(c.transform.eulerAngles.x, 0f, c.transform.eulerAngles.z);
     }
