@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GiroNubes : MonoBehaviour
 {
-    public float vel = 0.01f;
+    public float vel = 0.002f;
 
     // Update is called once per frame
     void Update()
