@@ -28,7 +28,8 @@ public class GameManager : MonoBehaviour
             // Set continue as grey
             continueTMP.color = new Color(1f, 1f, 1f, 1f);
             // Disable events
-            continueButton.GetComponent<EventTrigger>().enabled = false;
+            continueButton.GetComponent<EventTrigger>().enabled = true;
+            continueButton.GetComponent<Button>().interactable = true;
         }
         else
         {
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
             continueTMP.color = new Color(1f, 1f, 1f, 0.5f);
             // Able events
             continueButton.GetComponent<EventTrigger>().enabled = false;
+            continueButton.GetComponent<Button>().interactable = false;
         }
     }
 
