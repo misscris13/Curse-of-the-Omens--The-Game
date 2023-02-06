@@ -646,7 +646,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdc43aca21974610964365617d34805a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 1644279223}
+  player: {fileID: 1644279224}
+  enemies:
+  - {fileID: 1955871653}
+  - {fileID: 1171277294}
 --- !u!4 &543567379
 Transform:
   m_ObjectHideFlags: 0
@@ -1644,10 +1647,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69e87912b74d0547bac097c1493c632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
-  mana: 0
-  ult: 0
-  maxUlt: 0
+  isPlayer: 0
+  _name: 
 --- !u!114 &1171277295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2208,10 +2209,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69e87912b74d0547bac097c1493c632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
-  mana: 0
-  ult: 0
-  maxUlt: 0
+  isPlayer: 1
+  _name: 
 --- !u!114 &1644279225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2321,10 +2320,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69e87912b74d0547bac097c1493c632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
-  mana: 0
-  ult: 0
-  maxUlt: 0
+  isPlayer: 0
+  _name: 
 --- !u!114 &1955871654
 MonoBehaviour:
   m_ObjectHideFlags: 0
