@@ -48,14 +48,17 @@ public class GameManager : MonoBehaviour
         ResetData();
         
         // Write everything to PlayerPrefs
-        CreateKayData();  // this function will change depending on the selected character, only Kay for now
+        CreateKayData();  // this function will change depending on the selected character
     }
     
+    // Deletes every item in PlayerPrefs
     private void ResetData()
     {
         PlayerPrefs.DeleteAll();
     }
 
+    // Creates the character sheet for Kay Ravely.
+    // 0.1: Only required values for the tutorial
     private void CreateKayData()
     {
         // Since the default character is Kay, she is multiclassed in Fighter and Barbarian
@@ -79,47 +82,12 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("int", 10);
         PlayerPrefs.SetInt("wis", 13);
         PlayerPrefs.SetInt("cha", 15);
-        
-        // Saving throws bonuses - 1 = proficiency, 0.5 = half-proficiency
-        PlayerPrefs.SetFloat("strSaving", 1f);
-        PlayerPrefs.SetFloat("dexSaving", 0f);
-        PlayerPrefs.SetFloat("conSaving", 1f);
-        PlayerPrefs.SetFloat("intSaving", 0f);
-        PlayerPrefs.SetFloat("wisSaving", 0f);
-        PlayerPrefs.SetFloat("chaSaving", 0f);
-        
-        // Skill proficiencies - 1 = proficiency, 0.5 = half-proficiency
-        PlayerPrefs.SetFloat("acrobatics", 1f);
-        PlayerPrefs.SetFloat("animalHandling", 0f);
-        PlayerPrefs.SetFloat("arcana", 0f);
+
+        // Skill proficiencies
         PlayerPrefs.SetFloat("athletics", 1f);
-        PlayerPrefs.SetFloat("deception", 0f);
-        PlayerPrefs.SetFloat("history", 0f);
-        PlayerPrefs.SetFloat("insight", 0f);
         PlayerPrefs.SetFloat("intimidation", 1f);
-        PlayerPrefs.SetFloat("investigation", 0f);
-        PlayerPrefs.SetFloat("medicine", 0f);
-        PlayerPrefs.SetFloat("nature", 0f);
         PlayerPrefs.SetFloat("perception", 1f);
-        PlayerPrefs.SetFloat("performance", 0f);
         PlayerPrefs.SetFloat("persuasion", 0f);
-        PlayerPrefs.SetFloat("religion", 0f);
-        PlayerPrefs.SetFloat("sleightOfHand", 0.5f);
         PlayerPrefs.SetFloat("stealth", 1f);
-        PlayerPrefs.SetFloat("survival", 1f);
-        
-        // Other proficiencies
-        PlayerPrefs.SetString("armorProficiency", "heavy;light;medium;shields");
-        PlayerPrefs.SetString("weaponProficiency", "martial;simple");
-        PlayerPrefs.SetString("spokenLanguages", "common;elvish;sylvan");
-        
-        // Defenses & Conditions
-        PlayerPrefs.SetString("resistances", "");
-        PlayerPrefs.SetString("immunities", "");
-        PlayerPrefs.SetString("vulnerabilities", "");
-        PlayerPrefs.SetString("conditions", "");
-        
-        // Senses
-        PlayerPrefs.SetString("senses", "darkvision");
     }
 }
