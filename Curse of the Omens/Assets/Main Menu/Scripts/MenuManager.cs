@@ -8,7 +8,7 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class MenuManager : MonoBehaviour
 {
     private bool existsGame;
     
