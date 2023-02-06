@@ -1,17 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CombatManager : MonoBehaviour
 {
     [SerializeField]
     private Entity player;
+    [SerializeField]
     private Entity[] enemies;
-    
+
+    private List<string> _turnOrder;
+
     // Start is called before the first frame update
     void Start()
     {
+        _turnOrder = new List<string>();
+
         
+        
+        RollEnemyInitiative();
     }
 
     // Update is called once per frame
@@ -20,8 +29,24 @@ public class CombatManager : MonoBehaviour
         
     }
 
-    void manageAttack (Entity dealer, Entity target, string dmgType, float dmg, bool isPlayer)
+    public void DealDamage(Entity dealer, Entity target, int dmg)
     {
-        //target.Damage(dmgType, dmg);
+        
+    }
+
+    private void RollEnemyInitiative()
+    {
+        int roll;
+        foreach (Entity enemy in enemies)
+        {
+            // Roll the d20
+            roll = Random.Range(1, 20);
+            // Add initiative
+            roll += enemy._stats["initiativeBonus"];
+            
+            _turnOrder.Add(roll + ";" + enemy.name);
+        }
+        
+        _turnOrder.Sort();
     }
 }

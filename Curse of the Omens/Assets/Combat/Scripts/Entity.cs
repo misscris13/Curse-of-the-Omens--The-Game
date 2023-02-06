@@ -1,18 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class Entity : MonoBehaviour
 {
     [SerializeField]
     private bool isPlayer = false;
-    
-    private Dictionary<string, int> _class;
-    private Dictionary<string, int> _stats;
-    private Dictionary<string, float> _skills;
 
+    [SerializeField] private string _name;
+    
     private string[] _statsToRecover;
     private string[] _skillsToRecover;
+    
+    public Dictionary<string, int> _class;
+    public Dictionary<string, int> _stats;
+    public Dictionary<string, float> _skills;
+
+    private UnityEvent attackEvent;
     
     // Start is called before the first frame update
     void Start()
@@ -48,13 +55,7 @@ public class Entity : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    // Recovers classes and levels from PlayerPrefs
+    // Recovers classes and levels from PlayerPrefs, only intended for Player
     private void GetClasses()
     {
         string class1 = PlayerPrefs.GetString("class1");
@@ -67,7 +68,7 @@ public class Entity : MonoBehaviour
         }
     }
 
-    // Recovers stats from PlayerPrefs
+    // Recovers stats from PlayerPrefs, only intended for Player
     private void GetStats()
     {
         foreach (string stat in _statsToRecover)
@@ -79,7 +80,7 @@ public class Entity : MonoBehaviour
         }
     }
 
-    // Recovers skills from PlayerPrefs
+    // Recovers skills from PlayerPrefs, only intended for Player
     private void GetSkills()
     {
         foreach (string skill in _skillsToRecover)
@@ -95,5 +96,23 @@ public class Entity : MonoBehaviour
     private void LoadFromFile()
     {
         
+    }
+
+    // For enemies only, decides what to do in combat
+    public void DecideNextAction()
+    {
+        if (_stats["hitPoints"] < 10 && Random.value > 0.8f)
+        {
+            Flee();
+        }
+        else
+        {
+            attackEvent.Invoke();
+        }
+    }
+
+    private void Flee()
+    {
+        gameObject.SetActive(false);
     }
 }
