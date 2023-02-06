@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class CombatManager : MonoBehaviour
@@ -13,20 +14,23 @@ public class CombatManager : MonoBehaviour
 
     private List<string> _turnOrder;
 
+    public bool canStart = false;
+
     // Start is called before the first frame update
     void Start()
     {
         _turnOrder = new List<string>();
 
-        
-        
-        RollEnemyInitiative();
+        // change message, show "Tira iniciativa!"
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (canStart)
+        {
+            
+        }
     }
 
     public void DealDamage(Entity dealer, Entity target, int dmg)
