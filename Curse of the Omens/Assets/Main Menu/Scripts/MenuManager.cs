@@ -83,11 +83,11 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("wis", 13);
         PlayerPrefs.SetInt("cha", 15);
 
-        // Skill proficiencies
-        PlayerPrefs.SetFloat("athletics", 1f);
-        PlayerPrefs.SetFloat("intimidation", 1f);
-        PlayerPrefs.SetFloat("perception", 1f);
-        PlayerPrefs.SetFloat("persuasion", 0f);
-        PlayerPrefs.SetFloat("stealth", 1f);
+        // Skill proficiencies - acting as bool
+        PlayerPrefs.SetInt("athletics", 1);
+        PlayerPrefs.SetInt("intimidation", 1);
+        PlayerPrefs.SetInt("perception", 1);
+        PlayerPrefs.SetInt("persuasion", 0);
+        PlayerPrefs.SetInt("stealth", 1);
     }
 }
