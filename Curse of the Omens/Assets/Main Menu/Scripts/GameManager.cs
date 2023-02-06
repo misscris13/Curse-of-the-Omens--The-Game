@@ -4,13 +4,14 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     private bool existsGame;
-
+    
     [SerializeField]
     private GameObject continueText;
     [SerializeField]
@@ -41,9 +42,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void NewGame()
     {
+        // Reset PlayerPrefs
+        ResetData();
+        
+        // Write everything to PlayerPrefs
+        
+        // Since the default character is Kay, she is multiclassed in Fighter and Barbarian
+        PlayerPrefs.SetString("class1", "fighter");
+        PlayerPrefs.SetString("class2", "barbarian");
+        // For the sake of the story, she starts with higher level
+        PlayerPrefs.SetInt(PlayerPrefs.GetString("class1"), 10);
+        PlayerPrefs.SetInt(PlayerPrefs.GetString("class2"), 7);
+        // Default stats
+        PlayerPrefs.SetInt("hitPoints", 127);
+        PlayerPrefs.SetInt("str");
+    }
 
+    private void ResetData()
+    {
+        PlayerPrefs.DeleteAll();
     }
 }
