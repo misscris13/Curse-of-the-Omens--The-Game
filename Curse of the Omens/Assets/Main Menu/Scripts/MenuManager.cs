@@ -89,5 +89,8 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("perception", 1);
         PlayerPrefs.SetInt("persuasion", 0);
         PlayerPrefs.SetInt("stealth", 1);
+        
+        PlayerPrefs.Save();
+        Debug.Log(PlayerPrefs.GetInt("initiativeBonus"));
     }
 }
