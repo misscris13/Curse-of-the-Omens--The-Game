@@ -549,6 +549,8 @@ GameObject:
   - component: {fileID: 396779443}
   - component: {fileID: 396779445}
   - component: {fileID: 396779444}
+  - component: {fileID: 396779447}
+  - component: {fileID: 396779446}
   m_Layer: 5
   m_Name: Messages
   m_TagString: Untagged
@@ -673,6 +675,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 396779442}
   m_CullTransparentMesh: 1
+--- !u!111 &396779446
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396779442}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 3fb1f2eeb2cd9964ea0916945dcd7436, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 3fb1f2eeb2cd9964ea0916945dcd7436, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!95 &396779447
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396779442}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a600a8a94462d85409569759a71dcf9b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &423874223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1163,6 +1201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae94f6add92b662438a4cff269ce1aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 396779444}
 --- !u!1 &744356011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1760,7 +1799,7 @@ GameObject:
   - component: {fileID: 1171277294}
   m_Layer: 5
   m_Name: EnemyObject2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2342,7 +2381,7 @@ GameObject:
   - component: {fileID: 1644279224}
   m_Layer: 5
   m_Name: PlayerObject
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2433,7 +2472,7 @@ GameObject:
   - component: {fileID: 1955871653}
   m_Layer: 5
   m_Name: EnemyObject1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
