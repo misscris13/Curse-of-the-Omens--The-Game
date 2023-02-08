@@ -11,14 +11,14 @@ using Random = UnityEngine.Random;
 public class CombatManager : MonoBehaviour
 {
     [SerializeField]
-    private Entity player;
+    private Entity player;      // Player object
     [SerializeField]
-    private Entity[] enemies;
+    private Entity[] enemies;   // List of enemies
 
-    private List<Tuple<int, Entity>> _turnOrderList;
-    
-    private List<Entity> _entityOrder;
-    private List<int> _rollOrder;
+    private List<Tuple<int, Entity>> _turnOrderList;    // Ordered list of <roll, Entity>
+
+    private bool _canStart;     // Marks completion of initiative rolls
+    private int _currentTurn;   // Current turn (index in turn list)
 
     [SerializeField] 
     private UICombatManager cmUI;
@@ -27,20 +27,43 @@ public class CombatManager : MonoBehaviour
     void Start()
     {
         _turnOrderList = new List<Tuple<int, Entity>>();
-        _entityOrder = new List<Entity>();
-        _rollOrder = new List<int>();
+        _canStart = false;
         cmUI.RollDice();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (_canStart)
+        {
+            if (_turnOrderList[_currentTurn].Item2.isPlayer)
+            {
+                // Player actions
+                Debug.Log("Player's turn");
+            }
+            else
+            {
+                Debug.Log(_turnOrderList[_currentTurn].Item2.name + "'s turn");
+                _turnOrderList[_currentTurn].Item2.DecideNextAction();
+            }
+
+            if (_currentTurn == _turnOrderList.Count - 1)
+            {
+                _currentTurn = 0;
+            }
+            else
+            {
+                _currentTurn++;
+            }
+        }
     }
 
-    public void DealDamage(Entity dealer, Entity target, int dmg)
+    public void DealDamage(Tuple<Entity, int> tuple)
     {
-        
+        var dealer = tuple.Item1;
+        var target = dealer.target;
+        var dmg = tuple.Item2;
+        Debug.Log(dealer.name + " dealing " + dmg + " damage to " + target.name);
     }
 
     public void RollInitiative(int playerRoll)
@@ -51,20 +74,19 @@ public class CombatManager : MonoBehaviour
             var roll = Random.Range(1, 20);
             // Add initiative - not working due to enemy dictionary not existing
             //roll += enemy._stats["initiativeBonus"];
-            
+
+            enemy.target = player;
             _turnOrderList.Add(new Tuple<int, Entity>(roll, enemy));
         }
 
+        player.target = enemies[0];    // Sets player target to first enemy by default
+        
         playerRoll += player._stats["initiativeBonus"];
         _turnOrderList.Add(new Tuple<int, Entity>(playerRoll, player));
         
         _turnOrderList.Sort((a,b) => a.Item1.CompareTo(b.Item1));
-        
-        for (int i = _turnOrderList.Count - 1; i >= 0; i--)
-        {
-            var entry = _turnOrderList[i];
-            _rollOrder.Add(entry.Item1);
-            _entityOrder.Add(entry.Item2);
-        }
+
+        _canStart = true;
+        _currentTurn = 0;
     }
 }
