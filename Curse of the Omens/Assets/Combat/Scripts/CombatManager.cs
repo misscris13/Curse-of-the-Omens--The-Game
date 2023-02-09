@@ -36,6 +36,8 @@ public class CombatManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        cmUI.SetHP(player._stats["hitPoints"]);
+        
         if (_canStart && _turnEnd)
         {
             _turnEnd = false;
@@ -60,9 +62,18 @@ public class CombatManager : MonoBehaviour
         var dealer = tuple.Item1;
         var target = dealer.target;
         var dmg = tuple.Item2;
+        
+        target._stats["hitPoints"] -= dmg;
+
+        if (target._stats["hitPoints"] <= 0)
+        {
+            // target.Die();
+        }
+        
         Debug.Log(dealer.name + " dealing " + dmg + " damage to " + target.name);
     }
 
+    
     public void RollInitiative(int playerRoll)
     {
         foreach (Entity enemy in enemies)
@@ -87,6 +98,7 @@ public class CombatManager : MonoBehaviour
         _currentTurn = 0;
     }
 
+    // Allows other hierarchy elements to set _turnEnd to true and update _currentTurn
     public void EndTurn()
     {
         _turnEnd = true;

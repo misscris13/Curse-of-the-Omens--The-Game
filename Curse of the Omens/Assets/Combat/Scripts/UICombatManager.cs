@@ -10,25 +10,28 @@ public class UICombatManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject messages;
-    private TMP_Text _text;
+    private TMP_Text _message;
 
     private bool _rollingDice = false;
     private int _roll;
     [SerializeField]
     private TMP_Text rollTMP;
 
+    private TMP_Text _hpText;
+    
     [SerializeField]
     private UnityEvent<int> initiativeRolled;
 
     // Start is called before the first frame update
     void Start()
     {
-        messages.SetActive(true);
-        _text = messages.GetComponent<TMP_Text>();
-        _text.text = "Tira iniciativa";
+        _message = GameObject.Find("Messages").GetComponent<TMP_Text>();
+        _message.text = "Tira iniciativa";
         StartCoroutine(HideText(3.0f));
 
         _roll = 1;
+        
+        _hpText = GameObject.Find("HP").GetComponent<TMP_Text>();
     }
 
     // Update is called once per frame
@@ -45,15 +48,18 @@ public class UICombatManager : MonoBehaviour
                 initiativeRolled.Invoke(_roll);
             }
         }
-        
-        
     }
 
+    public void SetHP(int txt)
+    {
+        _hpText.text = "" + txt;
+    }
+    
     private IEnumerator HideText(float time)
     {
         yield return new WaitForSeconds(time);
-        
-        messages.SetActive(false);
+
+        _message.text = "";
     }
     
     public void ChangeMessage(string msg)
