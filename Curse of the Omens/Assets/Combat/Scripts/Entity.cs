@@ -23,6 +23,8 @@ public class Entity : MonoBehaviour
 
     [SerializeField]
     private UnityEvent<Tuple<Entity, int>> attackEvent;
+    [SerializeField]
+    private UnityEvent endTurnEvent;
 
     // Start is called before the first frame update
     void Start()
@@ -102,18 +104,21 @@ public class Entity : MonoBehaviour
     }
 
     // For enemies only, decides what to do in combat
-    public void DecideNextAction()
+    public IEnumerator DecideNextAction()
     {
+        yield return new WaitForSeconds(2f);
         if (_stats["hitPoints"] < 10 && Random.value > 0.8f)
         {
             Flee();
             Debug.Log(name + " is fleeing");
+            endTurnEvent.Invoke();
         }
         else
         {
             // Calculate damage
             var dmg = 5;
             attackEvent.Invoke(new Tuple<Entity, int>(this, dmg));
+            endTurnEvent.Invoke();
         }
     }
 

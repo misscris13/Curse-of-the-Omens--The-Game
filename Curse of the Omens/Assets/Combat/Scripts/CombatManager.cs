@@ -18,6 +18,7 @@ public class CombatManager : MonoBehaviour
     private List<Tuple<int, Entity>> _turnOrderList;    // Ordered list of <roll, Entity>
 
     private bool _canStart;     // Marks completion of initiative rolls
+    private bool _turnEnd;
     private int _currentTurn;   // Current turn (index in turn list)
 
     [SerializeField] 
@@ -28,32 +29,28 @@ public class CombatManager : MonoBehaviour
     {
         _turnOrderList = new List<Tuple<int, Entity>>();
         _canStart = false;
+        _turnEnd = true;
         cmUI.RollDice();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_canStart)
+        if (_canStart && _turnEnd)
         {
+            _turnEnd = false;
+            
             if (_turnOrderList[_currentTurn].Item2.isPlayer)
             {
                 // Player actions
                 Debug.Log("Player's turn");
+                // make UI visible/enabled
+                // call EndTurn on UI
             }
             else
             {
                 Debug.Log(_turnOrderList[_currentTurn].Item2.name + "'s turn");
-                _turnOrderList[_currentTurn].Item2.DecideNextAction();
-            }
-
-            if (_currentTurn == _turnOrderList.Count - 1)
-            {
-                _currentTurn = 0;
-            }
-            else
-            {
-                _currentTurn++;
+                StartCoroutine(_turnOrderList[_currentTurn].Item2.DecideNextAction());
             }
         }
     }
@@ -88,5 +85,19 @@ public class CombatManager : MonoBehaviour
 
         _canStart = true;
         _currentTurn = 0;
+    }
+
+    public void EndTurn()
+    {
+        _turnEnd = true;
+        
+        if (_currentTurn == _turnOrderList.Count - 1)
+        {
+            _currentTurn = 0;
+        }
+        else
+        {
+            _currentTurn++;
+        }
     }
 }
