@@ -115,7 +115,6 @@ public class Entity : MonoBehaviour
 
         while ((line = reader.ReadLine()) != null)  // while !eof
         {
-            Debug.Log(line);
             words = line.Split(",");
             
             if (_statsToRecover.Contains(words[0]))
@@ -128,12 +127,9 @@ public class Entity : MonoBehaviour
             }
             else
             {
-                Debug.Log("Invalid keyword");
+                Debug.LogError("LoadDataFromFile Error: Invalid keyword");
             }
         }
-        
-        Debug.Log(name + ": " + _stats["hitPoints"]);
-        Debug.Log(_stats["str"]);
     }
 
     // For enemies only, decides what to do in combat.

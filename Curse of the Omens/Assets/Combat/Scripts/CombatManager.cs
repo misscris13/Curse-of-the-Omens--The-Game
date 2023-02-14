@@ -45,13 +45,13 @@ public class CombatManager : MonoBehaviour
             if (_turnOrderList[_currentTurn].Item2.isPlayer)
             {
                 // Player actions
-                Debug.Log("Player's turn");
+                Debug.Log("Player's turn - " + _turnOrderList[_currentTurn].Item1);
                 // make UI visible/enabled
                 // call EndTurn on UI
             }
             else
             {
-                Debug.Log(_turnOrderList[_currentTurn].Item2.name + "'s turn");
+                Debug.Log(_turnOrderList[_currentTurn].Item2.name + "'s turn - " + _turnOrderList[_currentTurn].Item1);
                 StartCoroutine(_turnOrderList[_currentTurn].Item2.DecideNextAction());
             }
         }
@@ -95,7 +95,7 @@ public class CombatManager : MonoBehaviour
         playerRoll += player._stats["initiativeBonus"];
         _turnOrderList.Add(new Tuple<int, Entity>(playerRoll, player));
         
-        _turnOrderList.Sort((a,b) => a.Item1.CompareTo(b.Item1));
+        _turnOrderList.Sort((a,b) => b.Item1.CompareTo(a.Item1));
         cmUI.ShowOrder(_turnOrderList);
         
         _canStart = true;
