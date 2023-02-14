@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,11 +6,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class UICombatManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject messages;
     private TMP_Text _message;
 
     private bool _rollingDice = false;
@@ -26,8 +27,7 @@ public class UICombatManager : MonoBehaviour
     void Start()
     {
         _message = GameObject.Find("Messages").GetComponent<TMP_Text>();
-        _message.text = "Tira iniciativa";
-        StartCoroutine(HideText(3.0f));
+        ChangeMessage("Tira iniciativa");
 
         _roll = 1;
         
@@ -50,11 +50,13 @@ public class UICombatManager : MonoBehaviour
         }
     }
 
+    // Changes the player's HP text.
     public void SetHP(int txt)
     {
         _hpText.text = "" + txt;
     }
     
+    // Hides the "messages" text after "time" seconds.
     private IEnumerator HideText(float time)
     {
         yield return new WaitForSeconds(time);
@@ -62,13 +64,22 @@ public class UICombatManager : MonoBehaviour
         _message.text = "";
     }
     
+    // Changes the "messages" text and calls HideText with 3s.
     public void ChangeMessage(string msg)
     {
-        
+        _message.text = msg;
+        StartCoroutine(HideText(3.0f));
     }
 
+    // Sets _rollingDice to true.
     public void RollDice()
     {
         _rollingDice = true;
+    }
+
+    // Displays the Entity order on screen.
+    public void ShowOrder(List<Tuple<int,Entity>> list)
+    {
+        
     }
 }

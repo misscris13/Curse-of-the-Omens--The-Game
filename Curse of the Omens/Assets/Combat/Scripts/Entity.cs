@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,6 +12,9 @@ using Random = UnityEngine.Random;
 public class Entity : MonoBehaviour
 {
     public bool isPlayer = false;  // Indicates whether the Entity is the player or not
+    
+    [SerializeField] 
+    private string type = "";   // Type of entity (thief, npc...) to load from files
 
     [DoNotSerialize]
     public Entity target;   // Contains the target of the entity
@@ -26,41 +31,41 @@ public class Entity : MonoBehaviour
     [SerializeField]
     private UnityEvent endTurnEvent;
 
-    // Start is called before the first frame update
+    // Start is called before the first frame update.
     void Start()
     {
         _class = new Dictionary<string, int>();
         _stats = new Dictionary<string, int>();
         _skills = new Dictionary<string, float>();
 
+        _statsToRecover = new string[]
+        {
+            "hitPoints", "armorClass",
+            "profBonus", "initiativeBonus",
+            "str", "dex", "con", "int",
+            "wis", "cha"
+        };
+            
+        _skillsToRecover = new string[]
+        {
+            "athletics", "intimidation",
+            "perception", "persuasion",
+            "stealth"
+        };
+        
         if (isPlayer)
         {
-            _statsToRecover = new string[]
-            {
-                "hitPoints", "armorClass",
-                "profBonus", "initiativeBonus",
-                "str", "dex", "con", "int",
-                "wis", "cha"
-            };
-            
-            _skillsToRecover = new string[]
-            {
-                "athletics", "intimidation",
-                "perception", "persuasion",
-                "stealth"
-            };
-
             GetClasses();
             GetStats();
             GetSkills();
         }
         else
         {
-            LoadFromFile();
+            LoadStatsFromFile();
         }
     }
 
-    // Recovers classes and levels from PlayerPrefs, only intended for Player
+    // Recovers classes and levels from PlayerPrefs, only intended for Player.
     private void GetClasses()
     {
         string class1 = PlayerPrefs.GetString("class1");
@@ -73,7 +78,7 @@ public class Entity : MonoBehaviour
         }
     }
 
-    // Recovers stats from PlayerPrefs, only intended for Player
+    // Recovers stats from PlayerPrefs, only intended for Player.
     private void GetStats()
     {
         foreach (string stat in _statsToRecover)
@@ -85,7 +90,7 @@ public class Entity : MonoBehaviour
         }
     }
 
-    // Recovers skills from PlayerPrefs, only intended for Player
+    // Recovers skills from PlayerPrefs, only intended for Player.
     private void GetSkills()
     {
         foreach (string skill in _skillsToRecover)
@@ -97,13 +102,41 @@ public class Entity : MonoBehaviour
         }
     }
 
-    // Loads a CSV as a character sheet, not intended for Player
-    private void LoadFromFile()
+    // Loads a CSV as a character sheet, not intended for Player.
+    // TODO: check if file exists
+    private void LoadStatsFromFile()
     {
-        _stats.Add("hitPoints", 15);
+        string path = "Assets/Data/" + type + ".txt";  // build file path
+
+        StreamReader reader = new StreamReader(path);
+        
+        string line;
+        string[] words;
+
+        while ((line = reader.ReadLine()) != null)  // while !eof
+        {
+            Debug.Log(line);
+            words = line.Split(",");
+            
+            if (_statsToRecover.Contains(words[0]))
+            {
+                _stats.Add(words[0], Convert.ToInt32(words[1]));
+            } 
+            else if (_skillsToRecover.Contains(words[0]))
+            {
+                _skills.Add(words[0], Convert.ToInt32(words[1]));    
+            }
+            else
+            {
+                Debug.Log("Invalid keyword");
+            }
+        }
+        
+        Debug.Log(name + ": " + _stats["hitPoints"]);
+        Debug.Log(_stats["str"]);
     }
 
-    // For enemies only, decides what to do in combat
+    // For enemies only, decides what to do in combat.
     public IEnumerator DecideNextAction()
     {
         yield return new WaitForSeconds(2f);
@@ -117,7 +150,8 @@ public class Entity : MonoBehaviour
         {
             // Calculate damage
             var dmg = 5;
-            attackEvent.Invoke(new Tuple<Entity, int>(this, dmg));
+            Attack(dmg);
+            //attackEvent.Invoke(new Tuple<Entity, int>(this, dmg));
             endTurnEvent.Invoke();
         }
     }
@@ -127,9 +161,21 @@ public class Entity : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void Attack()
+    private void Attack(int dmg)
     {
-        Debug.Log("" + name);
-        
+        target._stats["hitPoints"] -= dmg;
+
+        if (target._stats["hitPoints"] <= 0)
+        {
+            // target.Die();
+            // check if combat ended
+        }
+
+        // Move this to the last turn
+        // if (target.isPlayer)
+        // {
+        //     PlayerPrefs.SetInt("hitPoints", target._stats["hitPoints"]);
+        //     PlayerPrefs.Save();
+        // }
     }
 }

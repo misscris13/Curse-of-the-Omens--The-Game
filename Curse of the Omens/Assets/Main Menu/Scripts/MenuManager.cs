@@ -59,6 +59,7 @@ public class MenuManager : MonoBehaviour
 
     // Creates the character sheet for Kay Ravely.
     // 0.1: Only required values for the tutorial
+    // TODO: read from file, attacks per action
     private void CreateKayData()
     {
         // Since the default character is Kay, she is multiclassed in Fighter and Barbarian
@@ -83,14 +84,12 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("wis", 13);
         PlayerPrefs.SetInt("cha", 15);
 
-        // Skill proficiencies - acting as bool
+        // Skill proficiencies - if exists, there's proficiency
         PlayerPrefs.SetInt("athletics", 1);
         PlayerPrefs.SetInt("intimidation", 1);
         PlayerPrefs.SetInt("perception", 1);
-        PlayerPrefs.SetInt("persuasion", 0);
         PlayerPrefs.SetInt("stealth", 1);
         
         PlayerPrefs.Save();
-        Debug.Log(PlayerPrefs.GetInt("initiativeBonus"));
     }
 }

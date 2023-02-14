@@ -22,9 +22,9 @@ public class CombatManager : MonoBehaviour
     private int _currentTurn;   // Current turn (index in turn list)
 
     [SerializeField] 
-    private UICombatManager cmUI;
+    private UICombatManager cmUI;   // 
 
-    // Start is called before the first frame update
+    // Start is called before the first frame update.
     void Start()
     {
         _turnOrderList = new List<Tuple<int, Entity>>();
@@ -33,7 +33,7 @@ public class CombatManager : MonoBehaviour
         cmUI.RollDice();
     }
 
-    // Update is called once per frame
+    // Update is called once per frame.
     void Update()
     {
         cmUI.SetHP(player._stats["hitPoints"]);
@@ -57,6 +57,8 @@ public class CombatManager : MonoBehaviour
         }
     }
 
+    // Deals damage to the dealer's target.
+    // Receives a tuple containing <Dealer, damage>-.
     public void DealDamage(Tuple<Entity, int> tuple)
     {
         var dealer = tuple.Item1;
@@ -73,7 +75,8 @@ public class CombatManager : MonoBehaviour
         Debug.Log(dealer.name + " dealing " + dmg + " damage to " + target.name);
     }
 
-    
+    // Rolls the initiative dice for every enemy, then sorts the roll array and sets
+    // everything so the combat can start.
     public void RollInitiative(int playerRoll)
     {
         foreach (Entity enemy in enemies)
@@ -93,12 +96,13 @@ public class CombatManager : MonoBehaviour
         _turnOrderList.Add(new Tuple<int, Entity>(playerRoll, player));
         
         _turnOrderList.Sort((a,b) => a.Item1.CompareTo(b.Item1));
-
+        cmUI.ShowOrder(_turnOrderList);
+        
         _canStart = true;
         _currentTurn = 0;
     }
 
-    // Allows other hierarchy elements to set _turnEnd to true and update _currentTurn
+    // Allows other hierarchy elements to set _turnEnd to true and update _currentTurn.
     public void EndTurn()
     {
         _turnEnd = true;

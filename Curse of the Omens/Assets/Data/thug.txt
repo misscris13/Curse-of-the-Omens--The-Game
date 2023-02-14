@@ -1,0 +1,9 @@
+hitPoints,32
+armorClass,11
+initiativeBonus,0
+str,15
+dex,11
+con,14
+int,10
+wis,10
+cha,11

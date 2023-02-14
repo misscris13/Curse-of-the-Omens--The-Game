@@ -1214,7 +1214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae94f6add92b662438a4cff269ce1aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messages: {fileID: 396779442}
+  _message: {fileID: 0}
   rollTMP: {fileID: 950736204}
   initiativeRolled:
     m_PersistentCalls:
@@ -2189,6 +2189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  type: thug
   target: {fileID: 0}
   attackEvent:
     m_PersistentCalls:
@@ -2782,6 +2783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 1
+  type: 
   target: {fileID: 0}
   attackEvent:
     m_PersistentCalls:
@@ -2899,6 +2901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  type: thug
   target: {fileID: 0}
   attackEvent:
     m_PersistentCalls:
