@@ -567,6 +567,7 @@ MonoBehaviour:
   messageTMP: {fileID: 396779444}
   playerRollTMP: {fileID: 950736204}
   playerHealthTMP: {fileID: 1121551040}
+  messageAnimator: {fileID: 396779447}
 --- !u!4 &617170330
 Transform:
   m_ObjectHideFlags: 0

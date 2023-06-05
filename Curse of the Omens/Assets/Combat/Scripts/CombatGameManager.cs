@@ -17,6 +17,8 @@ public class CombatGameManager : MonoBehaviour
     private bool _initiativeRollsFinished;              // True if everyone rolled
     private bool _turnEnded;                            // True if the current turn ended
     private int _currentTurn;                           // Current turn, index in _turnOrder
+    private bool _playerRolling;                        // True if player is rolling initiative
+    private int _playerRoll;                            // Player's initiative roll
     
     // ---------- Entities ---------- //
     [SerializeField] private Entity playerEntity;       // Player entity
@@ -29,6 +31,7 @@ public class CombatGameManager : MonoBehaviour
     [SerializeField] private TMP_Text messageTMP;       // TMP for messages
     [SerializeField] private TMP_Text playerRollTMP;    // TMP for the player's roll
     [SerializeField] private TMP_Text playerHealthTMP;  // TMP for the player's health
+    [SerializeField] private Animator messageAnimator;  // Animator for messages
     
     void Start()
     {
@@ -41,13 +44,27 @@ public class CombatGameManager : MonoBehaviour
 
         // ---------- Start combat ---------- //
         ChangeMessage("Tira iniciativa");   // Change message
-        RollInitiative();                       // Start rolling initiative
-
-        playerHealthTMP.text = "" + playerEntity._stats["hitPoints"];   // Show player HP
+        _playerRolling = true;                  // Player starts rolling            
+        // playerHealthTMP.text = "" + playerEntity._stats["hitPoints"];   // Show player HP
+        Debug.Log("Tirando iniciativa del jugador...");
     }
     
     void Update()
     {
+        // If the player has to roll initiative
+        if (_playerRolling)
+        {
+            _playerRoll = Random.Range(1, 20);      // Keeps generating random numbers
+            playerRollTMP.text = "" + _playerRoll;  // Shows current number on screen
+            
+            if (Input.GetButtonDown("Fire1"))       // When player fires, the current roll stays
+            {
+                Debug.Log("Jugador ha sacado " + _playerRoll + "...");
+                _playerRolling = false;
+                RollInitiative();                   // Start rolling initiative
+            }
+        }
+        
         // When we've finished rolling initiative
         if (_initiativeRollsFinished && _turnEnded)
         {
@@ -66,7 +83,8 @@ public class CombatGameManager : MonoBehaviour
                 // TODO: Implement
                 Debug.Log("Enemy " + currentEntity.Item2.name + " turn - "
                     + _turnOrderList[_currentTurn].Item1);
-                Invoke("NpcAction", 2.0f);
+                // Invoke("NpcAction", 2.0f);
+                NpcAction();
             }
         }
     }
@@ -74,43 +92,26 @@ public class CombatGameManager : MonoBehaviour
     // Receives a string and changes the on screen message, then disappears in 3 seconds
     private void ChangeMessage(string msg)
     {
-        messageTMP.text = "msg";
-
-        Invoke("HideMessage", 3.0f);
+        messageTMP.text = msg;
+        messageAnimator.enabled = true;
+        Invoke("HideMessage", 2.0f);
     }
 
     // Clears message's text
     private void HideMessage()
     {
         messageTMP.text = "";
+        messageAnimator.enabled = false;
     }
     
-    // Manages player roll and rolls for every entity in the battle, assigns targets
+    // Manages rolls for every entity in the battle and assigns targets
     private void RollInitiative()
     {
-        Debug.Log("Tirando iniciativa del jugador...");
-        
-        bool playerRolling = true;   // True if rolling for player's initiative
-        int playerRoll = 1;          // Player's initiative roll
-        
-        // Loop for player roll
-        while (playerRolling)
-        {
-            playerRoll = Random.Range(1, 20);      // Keeps generating random numbers
-            playerRollTMP.text = "" + playerRoll;  // Shows current number on screen
-
-            if (Input.GetButtonDown("Fire1"))      // When player fires, the current roll stays
-            {
-                Debug.Log("Jugador ha sacado " + playerRoll + "...");
-                playerRolling = false;
-            }
-        }
-        
         // Add player initiative bonus to roll
-        playerRoll += playerEntity._stats["initiativeBonus"];
+        _playerRoll += playerEntity._stats["initiativeBonus"];
         
         // Add player roll to list
-        _turnOrderList.Add(new Tuple<int, Entity>(playerRoll, playerEntity));
+        _turnOrderList.Add(new Tuple<int, Entity>(_playerRoll, playerEntity));
         
         // Set target to first enemy, by default
         playerEntity.target = enemyList[0];
@@ -190,6 +191,8 @@ public class CombatGameManager : MonoBehaviour
     // Tells the NPC Entity (enemy/ally) to decide its next action
     private void NpcAction()
     {
+        Debug.Log("Decidiendo...");
         currentEntity.Item2.DecideNextAction();
+        Debug.Log("Decidido...");
     }
 }

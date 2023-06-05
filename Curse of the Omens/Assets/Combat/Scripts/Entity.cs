@@ -153,6 +153,7 @@ public class Entity : MonoBehaviour
             // Calculate damage
             var dmg = 5;
             Attack(dmg);
+            
             //attackEvent.Invoke(new Tuple<Entity, int>(this, dmg));
             endTurnEvent.Invoke();
         }
