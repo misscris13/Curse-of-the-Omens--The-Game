@@ -22,6 +22,8 @@ public class CombatGameManager : MonoBehaviour
     [SerializeField] private Entity playerEntity;       // Player entity
     [SerializeField] private Entity[] allyList;         // List of ally entities
     [SerializeField] private Entity[] enemyList;        // List of enemy entities
+    private Tuple<int, Entity> currentEntity;   // debug
+    // private Entity currentEntity;
 
     // ---------- Canvas ---------- //
     [SerializeField] private TMP_Text messageTMP;       // TMP for messages
@@ -30,6 +32,8 @@ public class CombatGameManager : MonoBehaviour
     
     void Start()
     {
+        Debug.Log("Starting combat...");
+        
         // ---------- Initialize variables ---------- //
         _turnOrderList = new List<Tuple<int, Entity>>();
         _initiativeRollsFinished = false;
@@ -38,19 +42,40 @@ public class CombatGameManager : MonoBehaviour
         // ---------- Start combat ---------- //
         ChangeMessage("Tira iniciativa");   // Change message
         RollInitiative();                       // Start rolling initiative
-        
+
+        playerHealthTMP.text = "" + playerEntity._stats["hitPoints"];   // Show player HP
     }
     
     void Update()
     {
-        
+        // When we've finished rolling initiative
+        if (_initiativeRollsFinished && _turnEnded)
+        {
+            // Starting turn
+            _turnEnded = false;
+
+            currentEntity = _turnOrderList[_currentTurn];
+            
+            if (currentEntity.Item2.isPlayer)
+            {
+                // TODO: Wait for player action
+                Debug.Log("Player's turn - " + currentEntity.Item1);
+            }
+            else
+            {
+                // TODO: Implement
+                Debug.Log("Enemy " + currentEntity.Item2.name + " turn - "
+                    + _turnOrderList[_currentTurn].Item1);
+                Invoke("NpcAction", 2.0f);
+            }
+        }
     }
 
     // Receives a string and changes the on screen message, then disappears in 3 seconds
     private void ChangeMessage(string msg)
     {
         messageTMP.text = "msg";
-        
+
         Invoke("HideMessage", 3.0f);
     }
 
@@ -63,6 +88,8 @@ public class CombatGameManager : MonoBehaviour
     // Manages player roll and rolls for every entity in the battle, assigns targets
     private void RollInitiative()
     {
+        Debug.Log("Tirando iniciativa del jugador...");
+        
         bool playerRolling = true;   // True if rolling for player's initiative
         int playerRoll = 1;          // Player's initiative roll
         
@@ -74,6 +101,7 @@ public class CombatGameManager : MonoBehaviour
 
             if (Input.GetButtonDown("Fire1"))      // When player fires, the current roll stays
             {
+                Debug.Log("Jugador ha sacado " + playerRoll + "...");
                 playerRolling = false;
             }
         }
@@ -86,6 +114,8 @@ public class CombatGameManager : MonoBehaviour
         
         // Set target to first enemy, by default
         playerEntity.target = enemyList[0];
+
+        Debug.Log("Tirando iniciativa de aliados...");
         
         // Rolling for allies
         for (int i = 0; i < allyList.Length; i++)
@@ -101,6 +131,8 @@ public class CombatGameManager : MonoBehaviour
             // Set target to random enemy
             allyEntity.target = enemyList[Random.Range(0, (enemyList.Length - 1))];
         }
+
+        Debug.Log("Tirando iniciativa de enemigos...");
         
         // Rolling for enemies
         for (int i = 0; i < enemyList.Length; i++)
@@ -134,10 +166,14 @@ public class CombatGameManager : MonoBehaviour
                 enemyEntity.target = playerEntity;
             }
         }
+
+        Debug.Log("Ordenando lista de iniciativas...");
         
         // Sort list by roll
         _turnOrderList.Sort((a, b) => b.Item1.CompareTo(a.Item1));
 
+        Debug.Log("Mostrando iniciativas...");
+        
         // Show final order
         ShowInitiativeOrder();
 
@@ -149,5 +185,11 @@ public class CombatGameManager : MonoBehaviour
     private void ShowInitiativeOrder()
     {
         // TODO: Implement
+    }
+    
+    // Tells the NPC Entity (enemy/ally) to decide its next action
+    private void NpcAction()
+    {
+        currentEntity.Item2.DecideNextAction();
     }
 }

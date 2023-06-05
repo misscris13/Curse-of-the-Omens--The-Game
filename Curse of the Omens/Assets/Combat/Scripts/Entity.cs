@@ -34,6 +34,8 @@ public class Entity : MonoBehaviour
     // Start is called before the first frame update.
     void Start()
     {
+        Debug.Log("Inicializando entidad...");
+        
         _class = new Dictionary<string, int>();
         _stats = new Dictionary<string, int>();
         _skills = new Dictionary<string, float>();
@@ -55,12 +57,14 @@ public class Entity : MonoBehaviour
         
         if (isPlayer)
         {
+            Debug.Log("Recuperando información de jugador...");
             GetClasses();
             GetStats();
             GetSkills();
         }
         else
         {
+            Debug.Log("Recuperando información de npc...");
             LoadStatsFromFile();
         }
     }
@@ -136,9 +140,8 @@ public class Entity : MonoBehaviour
     }
 
     // For enemies only, decides what to do in combat.
-    public IEnumerator DecideNextAction()
+    public void DecideNextAction()
     {
-        yield return new WaitForSeconds(2f);
         if (_stats["hitPoints"] < 10 && Random.value > 0.8f)
         {
             Flee();

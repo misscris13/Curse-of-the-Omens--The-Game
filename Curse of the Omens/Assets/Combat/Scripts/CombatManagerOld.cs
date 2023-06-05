@@ -52,7 +52,7 @@ public class CombatManagerOld : MonoBehaviour
             else
             {
                 Debug.Log(_turnOrderList[_currentTurn].Item2.name + "'s turn - " + _turnOrderList[_currentTurn].Item1);
-                StartCoroutine(_turnOrderList[_currentTurn].Item2.DecideNextAction());
+                // StartCoroutine(_turnOrderList[_currentTurn].Item2.DecideNextAction());
             }
         }
     }
