@@ -43,7 +43,7 @@ public class Entity : MonoBehaviour
             "hitPoints", "armorClass",
             "profBonus", "initiativeBonus",
             "str", "dex", "con", "int",
-            "wis", "cha"
+            "wis", "cha", "mana"
         };
             
         _skillsToRecover = new string[]
@@ -130,6 +130,9 @@ public class Entity : MonoBehaviour
                 Debug.LogError("LoadDataFromFile Error: Invalid keyword");
             }
         }
+        
+        // Everyone starts at 0 ult points.
+        _stats.Add("ultPoints", 0);
     }
 
     // For enemies only, decides what to do in combat.

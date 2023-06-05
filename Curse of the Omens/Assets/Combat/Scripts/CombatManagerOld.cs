@@ -8,7 +8,7 @@ using UnityEngine.Events;
 using static System.Linq.Enumerable;
 using Random = UnityEngine.Random;
 
-public class CombatManager : MonoBehaviour
+public class CombatManagerOld : MonoBehaviour
 {
     [SerializeField]
     private Entity player;      // Player object

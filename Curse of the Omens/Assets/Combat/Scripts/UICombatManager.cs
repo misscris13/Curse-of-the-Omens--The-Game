@@ -11,10 +11,11 @@ using Random = UnityEngine.Random;
 public class UICombatManager : MonoBehaviour
 {
     [SerializeField]
-    private TMP_Text _message;
+    private TMP_Text message;
 
     private bool _rollingDice = false;
     private int _roll;
+    
     [SerializeField]
     private TMP_Text rollTMP;
 
@@ -23,18 +24,14 @@ public class UICombatManager : MonoBehaviour
     [SerializeField]
     private UnityEvent<int> initiativeRolled;
 
-    // Start is called before the first frame update
     void Start()
     {
-        _message = GameObject.Find("Messages").GetComponent<TMP_Text>();
+        // First display the rolling message
         ChangeMessage("Tira iniciativa");
 
         _roll = 1;
-        
-        _hpText = GameObject.Find("HP").GetComponent<TMP_Text>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_rollingDice)
@@ -48,6 +45,8 @@ public class UICombatManager : MonoBehaviour
                 initiativeRolled.Invoke(_roll);
             }
         }
+        
+        
     }
 
     // Changes the player's HP text.
@@ -61,13 +60,13 @@ public class UICombatManager : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
 
-        _message.text = "";
+        message.text = "";
     }
     
     // Changes the "messages" text and calls HideText with 3s.
     public void ChangeMessage(string msg)
     {
-        _message.text = msg;
+        message.text = msg;
         StartCoroutine(HideText(3.0f));
     }
 
