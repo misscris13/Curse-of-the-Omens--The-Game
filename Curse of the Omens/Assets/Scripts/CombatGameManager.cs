@@ -19,6 +19,7 @@ public class CombatGameManager : MonoBehaviour
     private int _currentTurn;                           // Current turn, index in _turnOrder
     private bool _playerRolling;                        // True if player is rolling initiative
     private int _playerRoll;                            // Player's initiative roll
+    [SerializeField] private DiceRoll _dice;        // Dice roll script
     
     // ---------- Entities ---------- //
     [SerializeField] private Entity playerEntity;       // Player entity
@@ -44,7 +45,8 @@ public class CombatGameManager : MonoBehaviour
 
         // ---------- Start combat ---------- //
         ChangeMessage("Tira iniciativa");   // Change message
-        _playerRolling = true;                  // Player starts rolling            
+        _playerRolling = true;                  // Player starts rolling    
+        _dice.StartRolling();               // Dice starts rolling
         // playerHealthTMP.text = "" + playerEntity._stats["hitPoints"];   // Show player HP
         Debug.Log("Tirando iniciativa del jugador...");
     }
@@ -55,13 +57,17 @@ public class CombatGameManager : MonoBehaviour
         if (_playerRolling)
         {
             _playerRoll = Random.Range(1, 20);      // Keeps generating random numbers
-            playerRollTMP.text = "" + _playerRoll;  // Shows current number on screen
-            
+
             if (Input.GetButtonDown("Fire1"))       // When player fires, the current roll stays
             {
                 Debug.Log("Jugador ha sacado " + _playerRoll + "...");
+                
                 _playerRolling = false;
-                RollInitiative();                   // Start rolling initiative
+                playerRollTMP.text = "" + _playerRoll;  // Show roll
+                _dice.StopRolling();            // Stop dice from rolling
+                Invoke("HideRoll", 2.0f);   // Hide dice and text in 2s
+                
+                RollInitiative();                   // Start rolling other initiatives
             }
         }
         
@@ -194,5 +200,11 @@ public class CombatGameManager : MonoBehaviour
         Debug.Log("Decidiendo...");
         currentEntity.Item2.DecideNextAction();
         Debug.Log("Decidido...");
+    }
+
+    private void HideRoll()
+    {
+        _dice.gameObject.SetActive(false);
+        playerRollTMP.text = "";
     }
 }
