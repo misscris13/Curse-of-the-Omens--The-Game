@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -49,6 +50,9 @@ public class MenuManager : MonoBehaviour
         
         // Write everything to PlayerPrefs
         CreateKayData();  // this function will change depending on the selected character
+        
+        // Load first scene
+        SceneManager.LoadScene("Scenes/Combat");
     }
     
     // Deletes every item in PlayerPrefs
@@ -71,6 +75,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt(PlayerPrefs.GetString("class2"), 7);
         
         // Stats like HP, AC, Proficiency Bonus, Initiative Bonus
+        PlayerPrefs.SetInt("totalHitPoints", 127);
         PlayerPrefs.SetInt("hitPoints", 127);
         PlayerPrefs.SetInt("armorClass", 24);
         PlayerPrefs.SetInt("profBonus", 6);

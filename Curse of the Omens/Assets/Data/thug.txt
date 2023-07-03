@@ -7,4 +7,3 @@ con,14
 int,10
 wis,10
 cha,11
-mana,10

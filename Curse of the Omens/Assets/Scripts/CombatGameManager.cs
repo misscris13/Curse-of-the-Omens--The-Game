@@ -47,7 +47,8 @@ public class CombatGameManager : MonoBehaviour
         ChangeMessage("Tira iniciativa");   // Change message
         _playerRolling = true;                  // Player starts rolling    
         _dice.StartRolling();               // Dice starts rolling
-        // playerHealthTMP.text = "" + playerEntity._stats["hitPoints"];   // Show player HP
+        playerHealthTMP.text = "" + playerEntity._stats["totalHitPoints"]
+                                  + "/"+ playerEntity._stats["hitPoints"];   // Show player HP
         Debug.Log("Tirando iniciativa del jugador...");
     }
     
@@ -81,7 +82,7 @@ public class CombatGameManager : MonoBehaviour
             
             if (currentEntity.Item2.isPlayer)
             {
-                // TODO: Wait for player action
+                ChangeMessage("Tu turno");   // Change message
                 Debug.Log("Player's turn - " + currentEntity.Item1);
             }
             else
@@ -100,6 +101,7 @@ public class CombatGameManager : MonoBehaviour
     {
         messageTMP.text = msg;
         messageAnimator.enabled = true;
+        messageAnimator.Play("ZoomIn");
         Invoke("HideMessage", 2.0f);
     }
 

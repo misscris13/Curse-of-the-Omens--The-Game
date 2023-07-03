@@ -25,9 +25,11 @@ public class Entity : MonoBehaviour
     public Dictionary<string, int> _class;      // Dictionary of entity classes
     public Dictionary<string, int> _stats;      // Dictionary of entity stats
     public Dictionary<string, float> _skills;   // Dictionary of entity skills
-
-    [SerializeField]
-    private UnityEvent<Tuple<Entity, int>> attackEvent;
+    public Tuple<string, float> _weapon;        // Weapon: name, damage modifier
+    
+    
+    // [SerializeField]
+    // private UnityEvent<Tuple<Entity, int>> attackEvent;
     [SerializeField]
     private UnityEvent endTurnEvent;
 
@@ -42,10 +44,10 @@ public class Entity : MonoBehaviour
 
         _statsToRecover = new string[]
         {
-            "hitPoints", "armorClass",
+            "totalHitPoints", "hitPoints", "armorClass",
             "profBonus", "initiativeBonus",
             "str", "dex", "con", "int",
-            "wis", "cha", "mana"
+            "wis", "cha"
         };
             
         _skillsToRecover = new string[]
@@ -134,14 +136,14 @@ public class Entity : MonoBehaviour
                 Debug.LogError("LoadDataFromFile Error: Invalid keyword");
             }
         }
-        
-        // Everyone starts at 0 ult points.
-        _stats.Add("ultPoints", 0);
     }
 
     // For enemies only, decides what to do in combat.
     public void DecideNextAction()
     {
+        Debug.Log(_stats["hitPoints"]);
+        Debug.Log(_stats["totalHitPoints"]);
+        Debug.Log(_stats["armorClass"]);
         if (_stats["hitPoints"] < 10 && Random.value > 0.8f)
         {
             Flee();
@@ -159,6 +161,13 @@ public class Entity : MonoBehaviour
         }
     }
 
+    public void KayBasicAttack()
+    {
+        Debug.Log("Kay is attacking...");
+        int dmg = 10;
+        Attack(dmg);
+    }
+    
     private void Flee()
     {
         gameObject.SetActive(false);
