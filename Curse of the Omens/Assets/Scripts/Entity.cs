@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,9 +28,6 @@ public class Entity : MonoBehaviour
     public Dictionary<string, float> _skills;   // Dictionary of entity skills
     public Tuple<string, float> _weapon;        // Weapon: name, damage modifier
     
-    
-    // [SerializeField]
-    // private UnityEvent<Tuple<Entity, int>> attackEvent;
     [SerializeField]
     private UnityEvent endTurnEvent;
 
@@ -119,55 +117,66 @@ public class Entity : MonoBehaviour
         string line;
         string[] words;
 
-        while ((line = reader.ReadLine()) != null)  // while !eof
+        while ((line = reader.ReadLine()) != null) // while !eof
         {
             words = line.Split(",");
-            
+
             if (_statsToRecover.Contains(words[0]))
             {
                 _stats.Add(words[0], Convert.ToInt32(words[1]));
-            } 
+            }
             else if (_skillsToRecover.Contains(words[0]))
             {
-                _skills.Add(words[0], Convert.ToInt32(words[1]));    
+                _skills.Add(words[0], Convert.ToInt32(words[1]));
             }
             else
             {
                 Debug.LogError("LoadDataFromFile Error: Invalid keyword");
             }
+
         }
+
+        _stats.Add("totalHitPoints", _stats["hitPoints"]);
     }
 
     // For enemies only, decides what to do in combat.
     public void DecideNextAction()
     {
-        Debug.Log(_stats["hitPoints"]);
-        Debug.Log(_stats["totalHitPoints"]);
-        Debug.Log(_stats["armorClass"]);
         if (_stats["hitPoints"] < 10 && Random.value > 0.8f)
         {
             Flee();
-            Debug.Log(name + " is fleeing");
+            Debug.Log(name + " is fleeing...");
             endTurnEvent.Invoke();
         }
         else
         {
+            Debug.Log(name + " is attacking...");
             // Calculate damage
-            var dmg = 5;
+            var dmg = 15;
             Attack(dmg);
             
-            //attackEvent.Invoke(new Tuple<Entity, int>(this, dmg));
             endTurnEvent.Invoke();
         }
     }
 
-    public void KayBasicAttack()
+    public void KayAttack(string attackType, int rollQte)
     {
-        Debug.Log("Kay is attacking...");
-        int dmg = 10;
-        Attack(dmg);
+        rollQte += _stats["str"];
+        
+        Debug.Log("Kay is attacking with " + rollQte + " damage...");
+
+        if (attackType == "basic")
+        {
+            Attack(rollQte);
+        }
+        else if (attackType == "skill")
+        {
+            Attack(rollQte * 3);
+        }
+        
+        Debug.Log("Enemy now has " + target._stats["hitPoints"] + " out of " + target._stats["totalHitPoints"]);
     }
-    
+
     private void Flee()
     {
         gameObject.SetActive(false);
