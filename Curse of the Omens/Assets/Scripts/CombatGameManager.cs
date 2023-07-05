@@ -133,7 +133,11 @@ public class CombatGameManager : MonoBehaviour
                 playerEntity.KayAttack(_attackType, 10);
                 
                 _turnEnded = true;
-                _currentTurn++;
+                
+                if (_currentTurn == _turnOrderList.Count - 1)
+                    _currentTurn = 0;
+                else
+                    _currentTurn++;
             }
 
         }
@@ -247,7 +251,10 @@ public class CombatGameManager : MonoBehaviour
         Debug.Log("Decidido...");
         playerHealthTMP.text = playerEntity._stats["hitPoints"] + "/" + playerEntity._stats["totalHitPoints"];
         _turnEnded = true;
-        _currentTurn++;
+        if (_currentTurn == _turnOrderList.Count - 1)
+            _currentTurn = 0;
+        else
+            _currentTurn++;
     }
 
     private void HideRoll()
