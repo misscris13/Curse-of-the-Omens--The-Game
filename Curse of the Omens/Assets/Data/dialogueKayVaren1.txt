@@ -1,0 +1,4 @@
+Kay;Hola;Neutral
+Varen;Hola!;Happy
+Kay;Buena prueba de diálogo;Happy
+Varen;Buenísima prueba;Neutral
