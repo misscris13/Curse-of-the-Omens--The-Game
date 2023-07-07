@@ -52,7 +52,7 @@ public class MenuManager : MonoBehaviour
         CreateKayData();  // this function will change depending on the selected character
         
         // Load first scene
-        SceneManager.LoadScene("Scenes/Combat");
+        SceneManager.LoadScene("Scenes/World");
     }
     
     // Deletes every item in PlayerPrefs

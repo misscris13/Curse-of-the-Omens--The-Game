@@ -64,9 +64,7 @@ public class DialogueManager : MonoBehaviour
         
         while ((line = reader.ReadLine()) != null) // while !eof
         {
-            Debug.Log(line);
             words = line.Split(";");    // words = [name, text, emotion]
-            Debug.Log(words[0] + " said '" + words[1] + "' with a " + words[2] + " expression");
             Tuple<string, string, string> tuple = new Tuple<string, string, string>(words[0], words[1], words[2]);
             DialogueData.Add(tuple);
         }
