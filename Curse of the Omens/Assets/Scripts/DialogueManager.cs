@@ -151,7 +151,6 @@ public class DialogueManager : MonoBehaviour
             nameText.text = currentDialogue.Item1;
             
             path = "Sprites/Dialogues/" + currentDialogue.Item1 + currentDialogue.Item3;
-            Debug.Log(path);
         }
         else
         {
@@ -165,7 +164,6 @@ public class DialogueManager : MonoBehaviour
             }
             
             path = "Sprites/Dialogues/" + altCurrentDialogue.Item2 + altCurrentDialogue.Item4;
-            Debug.Log(path);
         }
         
         // Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path) as Sprite;
