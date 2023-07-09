@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -151,7 +150,8 @@ public class DialogueManager : MonoBehaviour
             
             nameText.text = currentDialogue.Item1;
             
-            path = "Assets/Sprites/Dialogues/" + currentDialogue.Item1 + currentDialogue.Item3 + ".png";
+            path = "Sprites/Dialogues/" + currentDialogue.Item1 + currentDialogue.Item3;
+            Debug.Log(path);
         }
         else
         {
@@ -164,10 +164,12 @@ public class DialogueManager : MonoBehaviour
                 gameManager.TriggerVarenThugRun();
             }
             
-            path = "Assets/Sprites/Dialogues/" + altCurrentDialogue.Item2 + altCurrentDialogue.Item4 + ".png";
+            path = "Sprites/Dialogues/" + altCurrentDialogue.Item2 + altCurrentDialogue.Item4;
+            Debug.Log(path);
         }
         
-        Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path) as Sprite;
+        // Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path) as Sprite;
+        Sprite sprite = Resources.Load<Sprite>(path);
         characterSpeaking.sprite = sprite;
     }
 
