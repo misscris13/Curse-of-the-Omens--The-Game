@@ -158,19 +158,32 @@ public class Entity : MonoBehaviour
         }
     }
 
-    public void KayAttack(string attackType, int rollQte)
+    public void KayAttack(string attackType, int playerRoll)
     {
-        rollQte += _stats["str"];
+        playerRoll += (int)((_stats["str"] + 1)/2) - 5; // str mod
         
-        Debug.Log("Kay is attacking with " + rollQte + " damage...");
+        Debug.Log("Kay is attacking with " + playerRoll + " damage...");
 
         if (attackType == "Basic")
         {
-            Attack(rollQte);
+            Attack(playerRoll);
         }
         else if (attackType == "Skill")
         {
-            Attack(rollQte * 3);
+            float rnd = Random.Range(0, 1);
+
+            if (rnd <= 0.3)
+            {
+                Attack(playerRoll * 3);
+            }
+            else if (rnd <= 0.6)
+            {
+                Attack(playerRoll * 2);
+            }
+            else
+            {
+                Attack(playerRoll);
+            }
         }
         
         Debug.Log("Enemy now has " + target._stats["hitPoints"] + " out of " + target._stats["totalHitPoints"]);

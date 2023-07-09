@@ -14,7 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/World.unity
     guid: dd06aa5b354eacd45a92eafd50195f22
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Profeta.unity
-    guid: 071c1971cbceb8d4eae08554c06cb9e6
+    guid: abc10f0139e656543adc1a72fa97f11e
   m_configObjects: {}

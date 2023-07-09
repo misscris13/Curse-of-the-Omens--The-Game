@@ -149,9 +149,7 @@ public class CombatGameManager : MonoBehaviour
                     playerEntity.gameObject.GetComponent<Animator>().Play(playerEntity.type + _attackType + "Attack");
                     
                     Debug.Log("PlayerAnimation");
-                    playerEntity.KayAttack(_attackType, 10);
-                    // _turnEnded = true;
-                    // NextTurn();
+                    playerEntity.KayAttack(_attackType, _playerRoll);
                     Invoke("NextTurn", 1.0f);
                 }
             }
@@ -349,6 +347,7 @@ public class CombatGameManager : MonoBehaviour
     
     public void LoadProfetaScene()
     {
-        SceneManager.LoadScene("Scenes/Profeta");
+        // SceneManager.LoadScene("Scenes/Profeta");
+        SceneManager.LoadScene("Scenes/MainMenu");
     }
 }
