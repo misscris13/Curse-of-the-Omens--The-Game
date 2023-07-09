@@ -6640,7 +6640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayer: 0
   dead: 0
-  type: thug
+  type: Thug
   target: {fileID: 0}
   entityDiedEvent:
     m_PersistentCalls:
@@ -10670,7 +10670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayer: 0
   dead: 0
-  type: thug
+  type: Thug
   target: {fileID: 0}
   entityDiedEvent:
     m_PersistentCalls:

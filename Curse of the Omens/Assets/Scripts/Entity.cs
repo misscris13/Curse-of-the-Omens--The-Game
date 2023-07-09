@@ -111,14 +111,16 @@ public class Entity : MonoBehaviour
     // TODO: check if file exists
     private void LoadStatsFromFile()
     {
-        string path = "Assets/Data/" + type + ".txt";  // build file path
-
-        StreamReader reader = new StreamReader(path);
+        string path = "Data/" + type;  // build file path
         
-        string line;
+        TextAsset textAsset = Resources.Load<TextAsset>(path);
+
+        string[] lines;
         string[] words;
 
-        while ((line = reader.ReadLine()) != null) // while !eof
+        lines = textAsset.text.Split("\n");
+
+        foreach (string line in lines)
         {
             words = line.Split(",");
 
@@ -134,7 +136,6 @@ public class Entity : MonoBehaviour
             {
                 Debug.LogError("LoadDataFromFile Error: Invalid keyword");
             }
-
         }
 
         _stats.Add("totalHitPoints", _stats["hitPoints"]);

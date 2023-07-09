@@ -35,10 +35,6 @@ public class DialogueManager : MonoBehaviour
     private TMP_Text dialogueText;
     [SerializeField] 
     private Animator animator;
-    [SerializeField] 
-    private AudioSource sfxSource;
-    [SerializeField] 
-    private GameObject varenGo;
 
     // Update is called once per frame
     void Update()
@@ -92,17 +88,19 @@ public class DialogueManager : MonoBehaviour
 
         _fileName = fileName;
         
-        string path = "Assets/Data/" + fileName + ".txt";   // build file path
+        string path = "Data/" + fileName;   // build file path
         
         Debug.Log("Reading path...");
-        StreamReader reader = new StreamReader(path);
-
-        string line;
+        TextAsset textAsset = Resources.Load<TextAsset>(path);
+        
+        string[] lines;
         string[] words;
 
-        Debug.Log("Getting dialogues from file...");
+        lines = textAsset.text.Split("\n");
         
-        while ((line = reader.ReadLine()) != null) // while !eof
+        Debug.Log("Getting dialogues from file...");
+
+        foreach (string line in lines)
         {
             words = line.Split(";");    // words = [name, text, emotion]
 
@@ -166,9 +164,15 @@ public class DialogueManager : MonoBehaviour
             path = "Sprites/Dialogues/" + altCurrentDialogue.Item2 + altCurrentDialogue.Item4;
         }
         
-        // Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path) as Sprite;
+        Debug.Log("Searching for sprite at " + path);
+        Resources.UnloadUnusedAssets();
         Sprite sprite = Resources.Load<Sprite>(path);
+        if (sprite != null)
+        {
+            Debug.Log("Found");
+        }
         characterSpeaking.sprite = sprite;
+        Debug.Log("Changed");
     }
 
     private void HideDialogue()
