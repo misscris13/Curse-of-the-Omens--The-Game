@@ -45,10 +45,13 @@ public class CombatGameManager : MonoBehaviour
     [SerializeField] private TMP_Text playerRollTMP;    // TMP for the player's roll
     [SerializeField] private TMP_Text playerHealthTMP;  // TMP for the player's health
     [SerializeField] private Animator messageAnimator;  // Animator for messages
+    [SerializeField] private Animator fadeAnimator;     // Animator for black fade
     
     void Start()
     {
         StartAnimations();
+        playerAttack.gameObject.SetActive(false);
+        playerSkill.gameObject.SetActive(false);
         Invoke("AltStart", 1.0f);
     }
 
@@ -61,6 +64,9 @@ public class CombatGameManager : MonoBehaviour
         _initiativeRollsFinished = false;
         _turnEnded = true;
 
+        playerAttack.gameObject.SetActive(true);
+        playerSkill.gameObject.SetActive(true);
+        
         // ---------- Start combat ---------- //
         ChangeMessage("Tira iniciativa");   // Change message
         _playerRollingInitiative = true;        // Player starts rolling    
@@ -112,11 +118,14 @@ public class CombatGameManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Enemy " + currentEntity.Item2.name + " turn - "
-                              + _turnOrderList[_currentTurn].Item1);
-                    playerAttack.enabled = false;
-                    playerSkill.enabled = false;
-                    NpcAction();
+                    if (!currentEntity.Item2.dead)
+                    {
+                        Debug.Log("Enemy " + currentEntity.Item2.name + " turn - "
+                                  + _turnOrderList[_currentTurn].Item1);
+                        playerAttack.enabled = false;
+                        playerSkill.enabled = false;
+                        NpcAction();
+                    }
                 }
             }
 
@@ -291,6 +300,8 @@ public class CombatGameManager : MonoBehaviour
     {
         Debug.Log("Starting animations");
         Debug.Log(playerEntity.type + "IdleCombat");
+
+        fadeAnimator.Play("FadeIn");
         
         playerEntity.gameObject.GetComponent<Animator>().Play(playerEntity.type + "IdleCombat");
 
@@ -322,11 +333,20 @@ public class CombatGameManager : MonoBehaviour
                 
                 // end combat
                 // load Profeta scene?
-                LoadProfetaScene();
+
+                Invoke("FadeOut", 1.0f);
+                Invoke("LoadProfetaScene", 2.0f);
             }
         }
     }
 
+    private void FadeOut()
+    {
+        playerAttack.gameObject.SetActive(false);
+        playerSkill.gameObject.SetActive(false);
+        fadeAnimator.Play("Fade");
+    }
+    
     public void LoadProfetaScene()
     {
         SceneManager.LoadScene("Scenes/Profeta");

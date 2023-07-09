@@ -13,6 +13,7 @@ using Random = UnityEngine.Random;
 public class Entity : MonoBehaviour
 {
     public bool isPlayer = false;  // Indicates whether the Entity is the player or not
+    public bool dead = false;
     
     [SerializeField] 
     public string type = "";   // Type of entity (thief, npc...) to load from files
@@ -195,6 +196,7 @@ public class Entity : MonoBehaviour
     private void Die()
     {
         entityDiedEvent.Invoke(isPlayer);
+        dead = true;
         // this.gameObject.GetComponent<Animator>().Play("Die");
     }
 }
