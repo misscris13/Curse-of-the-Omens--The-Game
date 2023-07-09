@@ -4,7 +4,7 @@ Kay;Tranquilo, solo nos queda esta zona.;Neutral
 Kay;En nada la veremos.;Neutral
 Varen;Eso espero...;Neutral
 Varen;De momento no hemos visto nada fuera de lo normal.;Neutral
-Varen;Creo que al profeta le han vuelto a vender información falsa.;Neutral
+Varen;Creo que al Profeta le han vuelto a vender información falsa.;Neutral
 Kay;¿Tú crees?;Neutral
 Kay;Quizá vemos algo por aquí...;Neutral
 Varen;No tengo muchas esperanzas, pero bueno.;Neutral

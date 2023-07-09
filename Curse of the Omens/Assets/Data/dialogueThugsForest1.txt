@@ -1,0 +1,23 @@
+???;Thug1;Ahora que ya tenemos esto, ¿qué hacemos? ¿Se lo damos al jefe?;Neutral
+???;Thug2;Nos dijeron que nos esperáramos aquí a que llegara alguien.;Neutral
+???;Thug2;Así no nos comemos nosotros el marrón.;Neutral
+???;Thug1;Pffff, qué pereza.;Neutral
+???;Thug1;¿...y si nos aparece un oso?;Neutral
+???;Thug2;Tío, aquí solo hay ardillas.;Neutral
+Kay;Kay;¿Qué hacéis?;Neutral
+???;Thug1;¡AAAAAAAAAA! ¡UN OSO!;Neutral
+Kay;Kay;...;Neutral
+???;Thug1;¿...eh?;Neutral
+???;Thug2;...cobarde.;Neutral
+Kay;Kay;Contestad.;Neutral
+???;Thug2;¿A tí qué te importa?;Neutral
+Kay;Kay;¿Qué lleváis ahí?;Neutral
+???;Thug1;Oye tío, creo que viene a por el brazalete...;Neutral
+???;Thug2;Cállate idiota.;Neutral
+Kay;Kay;¿Habéis robado eso?;Neutral
+???;Thug1;Igual es de Leveria...;Neutral
+???;Thug2;¿Ah, sí? Pues yo me llevo esto.;Neutral
+Varen;Varen;¡EH, VUELVE AQUÍ!;Neutral
+???;Thug1;¡OYE, NO ME DEJES SOLO!;Neutral
+Kay;Kay;Habla.;Neutral;
+???;Thug1;Prefiero morir antes que decirte algo.;Neutral

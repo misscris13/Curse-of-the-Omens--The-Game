@@ -22,7 +22,8 @@ public class DialogueManager : MonoBehaviour
     private Tuple<string, string, string> currentDialogue;
     private Tuple<string, string, string, string> altCurrentDialogue;
     private int _charIndex;
-
+    private bool altDialogue;
+    
     [SerializeField] 
     private WorldGameManager gameManager;
     [SerializeField] 
@@ -65,11 +66,22 @@ public class DialogueManager : MonoBehaviour
                     }
                 }
             }
-            
-            if (_dialogueAnimation && _charIndex < currentDialogue.Item2.Length)
+
+            if (!altDialogue)
             {
-                dialogueText.text += currentDialogue.Item2[_charIndex];
-                _charIndex++;
+                if (_dialogueAnimation && _charIndex < currentDialogue.Item2.Length)
+                {
+                    dialogueText.text += currentDialogue.Item2[_charIndex];
+                    _charIndex++;
+                }
+            }
+            else
+            {
+                if (_dialogueAnimation && _charIndex < altCurrentDialogue.Item3.Length)
+                {
+                    dialogueText.text += altCurrentDialogue.Item3[_charIndex];
+                    _charIndex++;
+                }
             }
         }
     }
@@ -77,6 +89,7 @@ public class DialogueManager : MonoBehaviour
     public void GetDialogueFromFile(string fileName)
     {
         DialogueData = new List<Tuple<string, string, string>>();
+        AltDialogueData = new List<Tuple<string, string, string, string>>();
 
         _fileName = fileName;
         
@@ -98,10 +111,19 @@ public class DialogueManager : MonoBehaviour
             {
                 Tuple<string, string, string> tuple = new Tuple<string, string, string>(words[0], words[1], words[2]);
                 DialogueData.Add(tuple);
+                _numberOfDialogues = DialogueData.Count;
+                altDialogue = false;
+            }
+            else if (words.Length == 4)
+            {
+                Tuple<string, string, string, string> tuple =
+                    new Tuple<string, string, string, string>(words[0], words[1], words[2], words[3]);
+                AltDialogueData.Add(tuple);
+                _numberOfDialogues = AltDialogueData.Count;
+                altDialogue = true;
             }
         }
 
-        _numberOfDialogues = DialogueData.Count;
         _currentIndex = 0;
         _inDialogue = true;
 
@@ -116,16 +138,35 @@ public class DialogueManager : MonoBehaviour
     {
         panel.SetActive(true);
         
-        currentDialogue = DialogueData[_currentIndex];
-        
-        nameText.text = currentDialogue.Item1;
-
         dialogueText.text = "";
         
         _dialogueAnimation = true;
         _charIndex = 0;
 
-        string path = "Assets/Sprites/Dialogues/" + currentDialogue.Item1 + currentDialogue.Item3 + ".png";
+        string path = "";
+        
+        if (!altDialogue)
+        {
+            currentDialogue = DialogueData[_currentIndex];
+            
+            nameText.text = currentDialogue.Item1;
+            
+            path = "Assets/Sprites/Dialogues/" + currentDialogue.Item1 + currentDialogue.Item3 + ".png";
+        }
+        else
+        {
+            altCurrentDialogue = AltDialogueData[_currentIndex];
+
+            nameText.text = altCurrentDialogue.Item1;
+
+            if (altCurrentDialogue.Item1 == "Varen")
+            {
+                gameManager.TriggerVarenThugRun();
+            }
+            
+            path = "Assets/Sprites/Dialogues/" + altCurrentDialogue.Item2 + altCurrentDialogue.Item4 + ".png";
+        }
+        
         Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path) as Sprite;
         characterSpeaking.sprite = sprite;
     }
@@ -142,8 +183,9 @@ public class DialogueManager : MonoBehaviour
 
         if (_fileName == "dialogueKayVaren1")
         {
-            sfxSource.Play();
-            varenGo.SetActive(false);
+            gameManager.TriggerVarenOut();
+            // sfxSource.Play();
+            // varenGo.SetActive(false);
         }
     }
 
