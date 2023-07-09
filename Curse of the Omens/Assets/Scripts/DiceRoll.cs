@@ -13,6 +13,7 @@ public class DiceRoll : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = false;
+        rb.isKinematic = false;
         Vector3 force = new Vector3(500f, 300f, 500f);
         rb.AddTorque(force, ForceMode.Force);
     }
@@ -20,6 +21,8 @@ public class DiceRoll : MonoBehaviour
     // Gets rid of torque
     public void StopRolling()
     {
+        rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        rb.isKinematic = true;
     }
 }

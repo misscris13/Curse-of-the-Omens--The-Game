@@ -8,11 +8,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using static System.Linq.Enumerable;
 using Random = UnityEngine.Random;
 
 public class CombatGameManager : MonoBehaviour
 {
+    private bool startLoaded;
+    
     // ---------- Turn Management ---------- //
     private List<Tuple<int, Entity>> _turnOrderList;    // List of <roll, Entity>
     private bool _initiativeRollsFinished;              // True if everyone rolled
@@ -26,6 +29,8 @@ public class CombatGameManager : MonoBehaviour
     private bool _playerRollingAttack;                  // True if player is rolling an attack
     private bool _activeQTE;                            // True if player is in a QTE
     private string _attackType;                         // Type of player attack (basic, skill...)
+    [SerializeField] private Button playerAttack;
+    [SerializeField] private Button playerSkill;
     
     // ---------- Entities ---------- //
     [SerializeField] private Entity playerEntity;       // Player entity
@@ -42,8 +47,14 @@ public class CombatGameManager : MonoBehaviour
     
     void Start()
     {
+        StartAnimations();
+        Invoke("AltStart", 1.0f);
+    }
+
+    private void AltStart()
+    {
         Debug.Log("Starting combat...");
-        
+
         // ---------- Initialize variables ---------- //
         _turnOrderList = new List<Tuple<int, Entity>>();
         _initiativeRollsFinished = false;
@@ -54,92 +65,86 @@ public class CombatGameManager : MonoBehaviour
         _playerRollingInitiative = true;        // Player starts rolling    
         _playerRollingAttack = false;  
         _dice.StartRolling();                   // Dice starts rolling
-        playerHealthTMP.text = "" + playerEntity._stats["totalHitPoints"]
-                                  + "/"+ playerEntity._stats["hitPoints"];   // Show player HP
+        playerHealthTMP.text = "" + playerEntity._stats["totalHitPoints"] + "/"+ playerEntity._stats["hitPoints"];   // Show player HP
+
+        startLoaded = true;
+        
         Debug.Log("Tirando iniciativa del jugador...");
     }
     
     void Update()
     {
-        // If the player has to roll initiative
-        if (_playerRollingInitiative)
+        if (startLoaded)
         {
-            _playerRoll = Random.Range(1, 20);      // Keeps generating random numbers
-
-            if (Input.GetButtonDown("Fire1"))       // When player fires, the current roll stays
+            // If the player has to roll initiative
+            if (_playerRollingInitiative)
             {
-                Debug.Log("Jugador ha sacado " + _playerRoll + "...");
-                
-                _playerRollingInitiative = false;
-                playerRollTMP.text = "" + _playerRoll;  // Show roll
-                _dice.StopRolling();            // Stop dice from rolling
-                Invoke("HideRoll", 2.0f);   // Hide dice and text in 2s
-                
-                RollInitiative();                   // Start rolling other initiatives
-            }
-        }
-        
-        // When we've finished rolling initiative
-        if (_initiativeRollsFinished && _turnEnded)
-        {
-            // Starting turn
-            _turnEnded = false;
+                _playerRoll = Random.Range(1, 20);      // Keeps generating random numbers
 
-            currentEntity = _turnOrderList[_currentTurn];
+                if (Input.GetButtonDown("Fire1"))       // When player fires, the current roll stays
+                {
+                    Debug.Log("Jugador ha sacado " + _playerRoll + "...");
+                    
+                    _playerRollingInitiative = false;
+                    playerRollTMP.text = "" + _playerRoll;  // Show roll
+                    _dice.StopRolling();            // Stop dice from rolling
+                    Invoke("HideRoll", 2.0f);   // Hide dice and text in 2s
+                    
+                    RollInitiative();                   // Start rolling other initiatives
+                }
+            }
             
-            if (currentEntity.Item2.isPlayer)
+            // When we've finished rolling initiative
+            if (_initiativeRollsFinished && _turnEnded)
             {
-                ChangeMessage("Tu turno");   // Change message
-                Debug.Log("Player's turn - " + currentEntity.Item1);
-            }
-            else
-            {
-                Debug.Log("Enemy " + currentEntity.Item2.name + " turn - "
-                    + _turnOrderList[_currentTurn].Item1);
-                // Invoke("NpcAction", 2.0f);
-                NpcAction();
-            }
-        }
+                // Starting turn
+                _turnEnded = false;
 
-        if (_playerRollingAttack)
-        {
-            _playerRoll = Random.Range(1, 20);      // Keeps generating random numbers
-            
-            _dice.StartRolling();
-
-            if (Input.GetButtonDown("Fire1"))       // When player fires, the current roll stays
-            {
-                Debug.Log("Jugador ha sacado " + _playerRoll + "...");
+                currentEntity = _turnOrderList[_currentTurn];
                 
-                _playerRollingAttack = false;
-
-                playerRollTMP.text = "" + _playerRoll;  // Show roll
-                _dice.StopRolling();            // Stop dice from rolling
-                Invoke("HideRoll", 2.0f);   // Hide dice and text in 2s
-                
-                _activeQTE = true;
-            }
-        }
-
-        if (_activeQTE)
-        {
-            // show qte
-            
-            // animation
-
-            if (Input.GetButtonDown("Fire1")) // When player fires, the current roll stays
-            {
-                Debug.Log("this is a qte");
-                playerEntity.KayAttack(_attackType, 10);
-                
-                _turnEnded = true;
-                
-                if (_currentTurn == _turnOrderList.Count - 1)
-                    _currentTurn = 0;
+                if (currentEntity.Item2.isPlayer)
+                {
+                    ChangeMessage("Tu turno");   // Change message
+                    playerAttack.enabled = true;
+                    playerSkill.enabled = true;
+                    Debug.Log("Player's turn - " + currentEntity.Item1);
+                }
                 else
-                    _currentTurn++;
+                {
+                    Debug.Log("Enemy " + currentEntity.Item2.name + " turn - "
+                              + _turnOrderList[_currentTurn].Item1);
+                    playerAttack.enabled = false;
+                    playerSkill.enabled = false;
+                    NpcAction();
+                }
             }
 
+            if (_playerRollingAttack)
+            {
+                _playerRoll = Random.Range(1, 20);      // Keeps generating random numbers
+                
+                _dice.StartRolling();
+
+                if (Input.GetButtonDown("Fire1"))       // When player fires, the current roll stays
+                {
+                    Debug.Log("Jugador ha sacado " + _playerRoll + "...");
+                    
+                    _playerRollingAttack = false;
+
+                    playerRollTMP.text = "" + _playerRoll;  // Show roll
+                    _dice.StopRolling();            // Stop dice from rolling
+                    Invoke("HideRoll", 1.0f);   // Hide dice and text in 1
+                    
+                    // TODO: wait for animation
+                    playerEntity.gameObject.GetComponent<Animator>().Play(playerEntity.type + _attackType + "Attack");
+                    
+                    Debug.Log("PlayerAnimation");
+                    playerEntity.KayAttack(_attackType, 10);
+                    // _turnEnded = true;
+                    // NextTurn();
+                    Invoke("NextTurn", 1.0f);
+                }
+            }
         }
     }
 
@@ -156,7 +161,7 @@ public class CombatGameManager : MonoBehaviour
     private void HideMessage()
     {
         messageTMP.text = "";
-        messageAnimator.enabled = false;
+        messageAnimator.Play("Nothing");
     }
     
     // Manages rolls for every entity in the battle and assigns targets
@@ -248,13 +253,14 @@ public class CombatGameManager : MonoBehaviour
     {
         Debug.Log("Decidiendo...");
         currentEntity.Item2.DecideNextAction();
+        // entity.animator.Play("Attack")
+        // wait for animation
+        Debug.Log("EnemyAnimation");
         Debug.Log("Decidido...");
         playerHealthTMP.text = playerEntity._stats["hitPoints"] + "/" + playerEntity._stats["totalHitPoints"];
-        _turnEnded = true;
-        if (_currentTurn == _turnOrderList.Count - 1)
-            _currentTurn = 0;
-        else
-            _currentTurn++;
+        // _turnEnded = true;
+        // NextTurn();
+        Invoke("NextTurn", 1.0f);
     }
 
     private void HideRoll()
@@ -269,5 +275,27 @@ public class CombatGameManager : MonoBehaviour
         _dice.gameObject.SetActive(true);
         _playerRollingAttack = true;
         _attackType = attackType;
+    }
+
+    private void NextTurn()
+    {
+        _turnEnded = true;
+        if (_currentTurn == _turnOrderList.Count - 1)
+            _currentTurn = 0;
+        else
+            _currentTurn++;
+    }
+
+    private void StartAnimations()
+    {
+        Debug.Log("Starting animations");
+        Debug.Log(playerEntity.type + "IdleCombat");
+        
+        playerEntity.gameObject.GetComponent<Animator>().Play(playerEntity.type + "IdleCombat");
+
+        for (int i = 0; i < enemyList.Length; i++)
+        {
+            enemyList[i].gameObject.GetComponent<Animator>().Play(enemyList[i].type + "IdleCombat");
+        }
     }
 }

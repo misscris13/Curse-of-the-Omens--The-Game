@@ -15,7 +15,7 @@ public class Entity : MonoBehaviour
     public bool isPlayer = false;  // Indicates whether the Entity is the player or not
     
     [SerializeField] 
-    private string type = "";   // Type of entity (thief, npc...) to load from files
+    public string type = "";   // Type of entity (thief, npc...) to load from files
 
     [DoNotSerialize]
     public Entity target;   // Contains the target of the entity

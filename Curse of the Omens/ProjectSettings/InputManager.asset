@@ -42,9 +42,9 @@ InputManager:
     descriptiveName: Accept, X for PS4, A for Xbox
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick 1 button 0
+    positiveButton: mouse 0
     altNegativeButton: 
-    altPositiveButton: mouse 0
+    altPositiveButton: e
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -169,8 +169,8 @@ InputManager:
     m_Name: Vertical
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
+    negativeButton: w
+    positiveButton: s
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0

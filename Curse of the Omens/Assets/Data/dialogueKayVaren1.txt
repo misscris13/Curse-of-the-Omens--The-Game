@@ -1,4 +1,19 @@
-Kay;Hola;Neutral
-Varen;Hola!;Happy
-Kay;Buena prueba de diálogo;Happy
-Varen;Buenísima prueba;Neutral
+Varen;Uff, ¿cuánto más vamos a estar de patrulla?;Neutral
+Varen;Quiero ver a Jira...;Neutral
+Kay;Tranquilo, solo nos queda esta zona.;Neutral
+Kay;En nada la veremos.;Neutral
+Varen;Eso espero...;Neutral
+Varen;De momento no hemos visto nada fuera de lo normal.;Neutral
+Varen;Creo que al profeta le han vuelto a vender información falsa.;Neutral
+Kay;¿Tú crees?;Neutral
+Kay;Quizá vemos algo por aquí...;Neutral
+Varen;No tengo muchas esperanzas, pero bueno.;Neutral
+Varen;A todo esto, ¿qué tal el tobillo y la muñeca?;Neutral
+Kay;Mejor de lo que pensaba, pero aún me cuesta caminar.;Neutral
+Varen;Ya veo ya, pensaba que se te había olvidado.;Neutral
+Kay;...;Neutral
+Varen;Oye, mira allí.;Neutral
+Varen;¿Qué hacen...?;Neutral
+Varen;Voy a acercarme por los arbustos, tú sigue por aquí y les cortamos si intentan huir.;Neutral
+Kay;Vale, ten cuidado.;Neutral
+Varen;Tú también.;Neutral

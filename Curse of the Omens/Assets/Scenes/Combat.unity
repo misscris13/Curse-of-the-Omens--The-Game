@@ -414,7 +414,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 217230811}
-  - component: {fileID: 217230812}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -440,24 +439,6 @@ Transform:
   m_Father: {fileID: 1921568013}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &217230812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 217230810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f69e87912b74d0547bac097c1493c632, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPlayer: 1
-  type: Kay
-  target: {fileID: 1948856168}
-  endTurnEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &260221763
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,7 +776,6 @@ GameObject:
   - component: {fileID: 396779445}
   - component: {fileID: 396779444}
   - component: {fileID: 396779447}
-  - component: {fileID: 396779446}
   m_Layer: 5
   m_Name: Messages
   m_TagString: Untagged
@@ -920,22 +900,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 396779442}
   m_CullTransparentMesh: 1
---- !u!111 &396779446
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 396779442}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 3fb1f2eeb2cd9964ea0916945dcd7436, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 3fb1f2eeb2cd9964ea0916945dcd7436, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!95 &396779447
 Animator:
   serializedVersion: 4
@@ -1441,7 +1405,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dice: {fileID: 1145660095}
-  playerEntity: {fileID: 217230812}
+  playerAttack: {fileID: 778641217}
+  playerSkill: {fileID: 851932830}
+  playerEntity: {fileID: 672586210}
   allyList: []
   enemyList:
   - {fileID: 1948856168}
@@ -1575,6 +1541,8 @@ GameObject:
   m_Component:
   - component: {fileID: 672586209}
   - component: {fileID: 672586208}
+  - component: {fileID: 672586211}
+  - component: {fileID: 672586210}
   m_Layer: 0
   m_Name: KayRavely
   m_TagString: Untagged
@@ -1623,12 +1591,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1fae40aff6430154fa2f0ad71b7290f8, type: 3}
+  m_Sprite: {fileID: -991802249, guid: 9c7f33f8d6356314e9ea9a083327a60f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.41, y: 0.32}
+  m_Size: {x: 0.48, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1650,6 +1618,44 @@ Transform:
   m_Father: {fileID: 217230811}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &672586210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672586207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f69e87912b74d0547bac097c1493c632, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayer: 1
+  type: Kay
+  target: {fileID: 1948856168}
+  endTurnEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!95 &672586211
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672586207}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6df9a113fda12d74f98b7e62a972c22c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &693608000
 GameObject:
   m_ObjectHideFlags: 0
@@ -1943,7 +1949,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: basic
+          m_StringArgument: Basic
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &778641218
@@ -2071,7 +2077,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 851932831}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 617170329}
+        m_TargetAssemblyTypeName: CombatGameManager, Assembly-CSharp
+        m_MethodName: RollAttack
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Skill
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &851932831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3798,6 +3816,7 @@ GameObject:
   - component: {fileID: 1948856166}
   - component: {fileID: 1948856167}
   - component: {fileID: 1948856168}
+  - component: {fileID: 1948856169}
   m_Layer: 0
   m_Name: Thug 1
   m_TagString: Untagged
@@ -3812,7 +3831,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948856165}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.149, z: 0}
   m_LocalScale: {x: 4.9623446, y: 4.9623446, z: 4.9623446}
   m_ConstrainProportionsScale: 0
@@ -3820,7 +3839,7 @@ Transform:
   - {fileID: 1691552750}
   m_Father: {fileID: 1109646325}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1948856167
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3862,12 +3881,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1fae40aff6430154fa2f0ad71b7290f8, type: 3}
+  m_Sprite: {fileID: 652947865, guid: 7e5e67d3635ee3c46a7174e071b8ac2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.46, y: 0.63}
+  m_Size: {x: 0.16, y: 0.33}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -3886,11 +3905,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  type: thug
-  target: {fileID: 217230812}
+  type: Thug
+  target: {fileID: 672586210}
   endTurnEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!95 &1948856169
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948856165}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1e6558879d0602a4d94cae0ac9448d92, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1952987566
 PrefabInstance:
   m_ObjectHideFlags: 0
