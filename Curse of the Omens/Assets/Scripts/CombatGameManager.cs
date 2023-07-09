@@ -7,6 +7,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using static System.Linq.Enumerable;
@@ -37,7 +38,7 @@ public class CombatGameManager : MonoBehaviour
     [SerializeField] private Entity[] allyList;         // List of ally entities
     [SerializeField] private Entity[] enemyList;        // List of enemy entities
     private Tuple<int, Entity> currentEntity;   // debug
-    // private Entity currentEntity;
+    private int deadEnemies = 0;
 
     // ---------- Canvas ---------- //
     [SerializeField] private TMP_Text messageTMP;       // TMP for messages
@@ -297,5 +298,37 @@ public class CombatGameManager : MonoBehaviour
         {
             enemyList[i].gameObject.GetComponent<Animator>().Play(enemyList[i].type + "IdleCombat");
         }
+    }
+
+    public void EntityDied(bool isPlayer)
+    {
+        if (isPlayer)
+        {
+            Debug.Log("Player died...");
+            // end combat
+            // Game over scene
+        }
+        else
+        {
+            Debug.Log("An enemy died...");
+            deadEnemies++;
+
+            if (deadEnemies == enemyList.Length)
+            {
+                Debug.Log("Every enemy died...");
+                
+                // PlayerPrefs.SetInt("hitPoints", playerEntity._stats["hitPoints"]);
+                // PlayerPrefs.Save();
+                
+                // end combat
+                // load Profeta scene?
+                LoadProfetaScene();
+            }
+        }
+    }
+
+    public void LoadProfetaScene()
+    {
+        SceneManager.LoadScene("Scenes/Profeta");
     }
 }

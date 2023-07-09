@@ -29,7 +29,7 @@ public class Entity : MonoBehaviour
     public Tuple<string, float> _weapon;        // Weapon: name, damage modifier
     
     [SerializeField]
-    private UnityEvent endTurnEvent;
+    private UnityEvent<bool> entityDiedEvent;
 
     // Start is called before the first frame update.
     void Start()
@@ -146,7 +146,6 @@ public class Entity : MonoBehaviour
         {
             Flee();
             Debug.Log(name + " is fleeing...");
-            endTurnEvent.Invoke();
         }
         else
         {
@@ -154,8 +153,6 @@ public class Entity : MonoBehaviour
             // Calculate damage
             var dmg = 15;
             Attack(dmg);
-            
-            endTurnEvent.Invoke();
         }
     }
 
@@ -165,11 +162,11 @@ public class Entity : MonoBehaviour
         
         Debug.Log("Kay is attacking with " + rollQte + " damage...");
 
-        if (attackType == "basic")
+        if (attackType == "Basic")
         {
             Attack(rollQte);
         }
-        else if (attackType == "skill")
+        else if (attackType == "Skill")
         {
             Attack(rollQte * 3);
         }
@@ -180,23 +177,24 @@ public class Entity : MonoBehaviour
     private void Flee()
     {
         gameObject.SetActive(false);
+        Die();
     }
 
     private void Attack(int dmg)
     {
+        Debug.Log(target.type + " has: " + target._stats["hitPoints"]);
         target._stats["hitPoints"] -= dmg;
+        Debug.Log(target.type + " has: " + target._stats["hitPoints"]);
 
         if (target._stats["hitPoints"] <= 0)
         {
-            // target.Die();
-            // check if combat ended
+            target.Die();
         }
+    }
 
-        // Move this to the last turn
-        // if (target.isPlayer)
-        // {
-        //     PlayerPrefs.SetInt("hitPoints", target._stats["hitPoints"]);
-        //     PlayerPrefs.Save();
-        // }
+    private void Die()
+    {
+        entityDiedEvent.Invoke(isPlayer);
+        // this.gameObject.GetComponent<Animator>().Play("Die");
     }
 }
