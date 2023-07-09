@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 using Image = UnityEngine.UI.Image;
 
 public class DialogueManager : MonoBehaviour
@@ -22,7 +25,8 @@ public class DialogueManager : MonoBehaviour
     private Tuple<string, string, string, string> altCurrentDialogue;
     private int _charIndex;
     private bool altDialogue;
-    
+    private Dictionary<string, Sprite> spriteDictionary;
+
     [SerializeField] 
     private WorldGameManager gameManager;
     [SerializeField] 
@@ -36,6 +40,16 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] 
     private Animator animator;
 
+    // void Awake()
+    // {
+    //     spriteDictionary = new Dictionary<string, Sprite>();
+    //     
+    //     spriteDictionary.Add("KayNeutral", Resources.Load<Sprite>("Sprites/Dialogues/KayNeutral"));
+    //     spriteDictionary.Add("VarenNeutral", Resources.Load<Sprite>("Sprites/Dialogues/VarenNeutral"));
+    //     // spriteDictionary.Add("Thug1Neutral", Resources.Load<Sprite>("Sprites/Dialogues/Thug1Neutral"));
+    //     // spriteDictionary.Add("Thug2Neutral", Resources.Load<Sprite>("Sprites/Dialogues/Thug2Neutral"));
+    // }
+    
     // Update is called once per frame
     void Update()
     {
@@ -86,6 +100,10 @@ public class DialogueManager : MonoBehaviour
         DialogueData = new List<Tuple<string, string, string>>();
         AltDialogueData = new List<Tuple<string, string, string, string>>();
 
+        Resources.UnloadUnusedAssets();
+
+        spriteDictionary = new Dictionary<string, Sprite>();
+
         _fileName = fileName;
         
         string path = "Data/" + fileName;   // build file path
@@ -100,24 +118,48 @@ public class DialogueManager : MonoBehaviour
         
         Debug.Log("Getting dialogues from file...");
 
+        string spritePath = "";
+
         foreach (string line in lines)
         {
             words = line.Split(";");    // words = [name, text, emotion]
 
             if (words.Length == 3)
             {
+                words[2] = words[2].Substring(0, words[2].Length - 1); // for some reason it's longer than expected
+                
                 Tuple<string, string, string> tuple = new Tuple<string, string, string>(words[0], words[1], words[2]);
                 DialogueData.Add(tuple);
                 _numberOfDialogues = DialogueData.Count;
                 altDialogue = false;
+
+                if (!spriteDictionary.ContainsKey(tuple.Item1 + tuple.Item3))
+                {
+                    spritePath = "Sprites/Dialogues/" + tuple.Item1 + tuple.Item3;
+                    Debug.Log("'" + spritePath + "' = '" + "Sprites/Dialogues/KayNeutral'");
+                    Debug.Log(spritePath == "Sprites/Dialogues/KayNeutral");
+                    spriteDictionary.Add(tuple.Item1 + tuple.Item3, Resources.Load<Sprite>(spritePath));
+                    Debug.Log(tuple.Item1 + tuple.Item3);
+                    Debug.Log(spriteDictionary[tuple.Item1 + tuple.Item3]);
+                }
             }
             else if (words.Length == 4)
             {
+                words[3] = words[3].Substring(0, words[3].Length - 1); // for some reason it's longer than expected
+                
                 Tuple<string, string, string, string> tuple =
                     new Tuple<string, string, string, string>(words[0], words[1], words[2], words[3]);
                 AltDialogueData.Add(tuple);
                 _numberOfDialogues = AltDialogueData.Count;
                 altDialogue = true;
+
+                if (!spriteDictionary.ContainsKey(tuple.Item2 + tuple.Item4))
+                {
+                    spritePath = "Sprites/Dialogues/" + tuple.Item2 + tuple.Item4;
+                    spriteDictionary.Add(tuple.Item2 + tuple.Item4, Resources.Load<Sprite>(spritePath));
+                    Debug.Log(tuple.Item2 + tuple.Item4);
+                    Debug.Log(spriteDictionary[tuple.Item2 + tuple.Item4]);
+                }
             }
         }
 
@@ -140,7 +182,7 @@ public class DialogueManager : MonoBehaviour
         _dialogueAnimation = true;
         _charIndex = 0;
 
-        string path = "";
+        // string path = "";
         
         if (!altDialogue)
         {
@@ -148,7 +190,14 @@ public class DialogueManager : MonoBehaviour
             
             nameText.text = currentDialogue.Item1;
             
-            path = "Sprites/Dialogues/" + currentDialogue.Item1 + currentDialogue.Item3;
+            // path = "Sprites/Dialogues/" + currentDialogue.Item1 + currentDialogue.Item3;
+            // Debug.Log(currentDialogue.Item1 + currentDialogue.Item3 + " " + (currentDialogue.Item1 + currentDialogue.Item3).Equals("KayNeutral") + " estupido");
+            // Debug.Log("tiene key a mano: " + spriteDictionary.ContainsKey("VarenNeutral"));
+            // Debug.Log("tiene key auto: " + spriteDictionary.ContainsKey(currentDialogue.Item1 + currentDialogue.Item3));
+            // Debug.Log("Items: " + (currentDialogue.Item3 == "Neutral"));
+            // Debug.Log("'" + currentDialogue.Item3 + "' - 'Neutral'");
+            // Debug.Log(currentDialogue.Item3.Length);
+            characterSpeaking.sprite = spriteDictionary[currentDialogue.Item1 + currentDialogue.Item3];
         }
         else
         {
@@ -161,18 +210,18 @@ public class DialogueManager : MonoBehaviour
                 gameManager.TriggerVarenThugRun();
             }
             
-            path = "Sprites/Dialogues/" + altCurrentDialogue.Item2 + altCurrentDialogue.Item4;
+            characterSpeaking.sprite = spriteDictionary[altCurrentDialogue.Item2 + altCurrentDialogue.Item4];
         }
         
-        Debug.Log("Searching for sprite at " + path);
-        Resources.UnloadUnusedAssets();
-        Sprite sprite = Resources.Load<Sprite>(path);
-        if (sprite != null)
-        {
-            Debug.Log("Found");
-        }
-        characterSpeaking.sprite = sprite;
-        Debug.Log("Changed");
+        // Debug.Log("Searching for sprite at " + path);
+        // Sprite sprite = Resources.Load(path) as Sprite;
+        // if (sprite != null)
+        // {
+        //     Debug.Log("Found");
+        // }
+        // characterSpeaking.sprite = sprite;
+        // Debug.Log("Changed");
+        
     }
 
     private void HideDialogue()

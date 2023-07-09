@@ -18,8 +18,6 @@ public class WorldGameManager : MonoBehaviour
     {
         // Starts with dialogue
         dialogueManager.GetDialogueFromFile("dialogueKayVaren1");
-        // Move player to dialogue position
-        // player.GetComponent<Transform>().position = talkingPosition.position;
         // Disable player input
         _characterController.playerInput = false;
     }

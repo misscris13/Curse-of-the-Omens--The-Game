@@ -2480,8 +2480,6 @@ MonoBehaviour:
   nameText: {fileID: 2082526238}
   dialogueText: {fileID: 1078479907}
   animator: {fileID: 1414971411}
-  sfxSource: {fileID: 231477206}
-  varenGo: {fileID: 1206773590}
 --- !u!4 &234815145
 Transform:
   m_ObjectHideFlags: 0
@@ -6758,7 +6756,7 @@ SpriteMask:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -218542756, guid: e200830f2c934794a9b192905771da96, type: 3}
   m_MaskAlphaCutoff: 0.2
   m_FrontSortingLayerID: 0
   m_BackSortingLayerID: 0
@@ -10788,7 +10786,7 @@ SpriteMask:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 2135057042, guid: 42834cd51f4552d43bd5cbde3acaf2c0, type: 3}
   m_MaskAlphaCutoff: 0.2
   m_FrontSortingLayerID: 0
   m_BackSortingLayerID: 0
