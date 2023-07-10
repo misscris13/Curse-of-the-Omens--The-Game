@@ -46,7 +46,9 @@ public class CombatGameManager : MonoBehaviour
     [SerializeField] private TMP_Text playerHealthTMP;  // TMP for the player's health
     [SerializeField] private Animator messageAnimator;  // Animator for messages
     [SerializeField] private Animator fadeAnimator;     // Animator for black fade
-    
+    [SerializeField] private TMP_Text playerDamage;     // Shows the damage dealt (player)
+    [SerializeField] private TMP_Text enemyDamage;     // Shows the damage dealt (enemy)
+
     void Start()
     {
         StartAnimations();
@@ -124,7 +126,7 @@ public class CombatGameManager : MonoBehaviour
                                   + _turnOrderList[_currentTurn].Item1);
                         playerAttack.enabled = false;
                         playerSkill.enabled = false;
-                        NpcAction();
+                        Invoke("NpcAction", 1.0f);
                     }
                 }
             }
@@ -145,11 +147,12 @@ public class CombatGameManager : MonoBehaviour
                     _dice.StopRolling();            // Stop dice from rolling
                     Invoke("HideRoll", 1.0f);   // Hide dice and text in 1
                     
-                    // TODO: wait for animation
                     playerEntity.gameObject.GetComponent<Animator>().Play(playerEntity.type + _attackType + "Attack");
+                    _playerRoll = playerEntity.KayAttack(_attackType, _playerRoll);
                     
-                    Debug.Log("PlayerAnimation");
-                    playerEntity.KayAttack(_attackType, _playerRoll);
+                    playerDamage.text = "" + _playerRoll;
+                    playerDamage.gameObject.GetComponent<Animator>().Play("Float");
+                    
                     Invoke("NextTurn", 1.0f);
                 }
             }
@@ -259,15 +262,15 @@ public class CombatGameManager : MonoBehaviour
     // Tells the NPC Entity (enemy/ally) to decide its next action
     private void NpcAction()
     {
-        Debug.Log("Decidiendo...");
-        currentEntity.Item2.DecideNextAction();
-        // entity.animator.Play("Attack")
-        // wait for animation
-        Debug.Log("EnemyAnimation");
-        Debug.Log("Decidido...");
+        int dmg = currentEntity.Item2.DecideNextAction();
+        
+        currentEntity.Item2.gameObject.GetComponent<Animator>().Play(currentEntity.Item2.type + "Attack");
+        
         playerHealthTMP.text = playerEntity._stats["hitPoints"] + "/" + playerEntity._stats["totalHitPoints"];
-        // _turnEnded = true;
-        // NextTurn();
+
+        enemyDamage.text = "" + dmg;
+        enemyDamage.gameObject.GetComponent<Animator>().Play("Float");
+        
         Invoke("NextTurn", 1.0f);
     }
 
@@ -329,11 +332,8 @@ public class CombatGameManager : MonoBehaviour
                 // PlayerPrefs.SetInt("hitPoints", playerEntity._stats["hitPoints"]);
                 // PlayerPrefs.Save();
                 
-                // end combat
-                // load Profeta scene?
-
                 Invoke("FadeOut", 1.0f);
-                Invoke("LoadProfetaScene", 2.0f);
+                Invoke("LoadEndScene", 2.0f);
             }
         }
     }
@@ -345,7 +345,7 @@ public class CombatGameManager : MonoBehaviour
         fadeAnimator.Play("Fade");
     }
     
-    public void LoadProfetaScene()
+    public void LoadEndScene()
     {
         // SceneManager.LoadScene("Scenes/Profeta");
         SceneManager.LoadScene("Scenes/MainMenu");

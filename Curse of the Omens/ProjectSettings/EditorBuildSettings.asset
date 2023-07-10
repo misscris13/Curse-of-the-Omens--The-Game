@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Profeta.unity
     guid: abc10f0139e656543adc1a72fa97f11e
   m_configObjects: {}

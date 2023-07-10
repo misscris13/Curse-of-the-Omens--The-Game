@@ -142,8 +142,10 @@ public class Entity : MonoBehaviour
     }
 
     // For enemies only, decides what to do in combat.
-    public void DecideNextAction()
+    public int DecideNextAction()
     {
+        int dmg = 0;
+
         if (_stats["hitPoints"] < 10 && Random.value > 0.8f)
         {
             Flee();
@@ -153,40 +155,38 @@ public class Entity : MonoBehaviour
         {
             Debug.Log(name + " is attacking...");
             // Calculate damage
-            var dmg = 15;
+            dmg = 15;
             Attack(dmg);
         }
+
+        return dmg;
     }
 
-    public void KayAttack(string attackType, int playerRoll)
+    public int KayAttack(string attackType, int playerRoll)
     {
         playerRoll += (int)((_stats["str"] + 1)/2) - 5; // str mod
         
         Debug.Log("Kay is attacking with " + playerRoll + " damage...");
-
-        if (attackType == "Basic")
-        {
-            Attack(playerRoll);
-        }
-        else if (attackType == "Skill")
+        
+        if (attackType == "Skill")
         {
             float rnd = Random.Range(0, 1);
 
             if (rnd <= 0.3)
             {
-                Attack(playerRoll * 3);
+                playerRoll *= 3;
             }
             else if (rnd <= 0.6)
             {
-                Attack(playerRoll * 2);
+                playerRoll *= 2;
             }
-            else
-            {
-                Attack(playerRoll);
-            }
+
+            Attack(playerRoll);
+            return playerRoll;
         }
         
         Debug.Log("Enemy now has " + target._stats["hitPoints"] + " out of " + target._stats["totalHitPoints"]);
+        return playerRoll;
     }
 
     private void Flee()
