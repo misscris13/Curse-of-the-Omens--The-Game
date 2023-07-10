@@ -28,9 +28,13 @@ public class Entity : MonoBehaviour
     public Dictionary<string, int> _stats;      // Dictionary of entity stats
     public Dictionary<string, float> _skills;   // Dictionary of entity skills
     public Tuple<string, float> _weapon;        // Weapon: name, damage modifier
+
+    [SerializeField] public RectTransform hpBar;
+    [SerializeField] public TMP_Text dmgText;    
     
     [SerializeField]
     private UnityEvent<bool> entityDiedEvent;
+    
 
     // Start is called before the first frame update.
     void Start()
@@ -172,18 +176,28 @@ public class Entity : MonoBehaviour
         {
             float rnd = Random.Range(0, 1);
 
-            if (rnd <= 0.3)
+            if (rnd <= 0.1)
             {
                 playerRoll *= 3;
+                // play anim 3 dagger
             }
-            else if (rnd <= 0.6)
+            else if (rnd <= 0.3)
             {
                 playerRoll *= 2;
+                // play anim 2 dagger
             }
-
-            Attack(playerRoll);
-            return playerRoll;
+            else if (rnd > 0.7)
+            {
+                playerRoll /= 2;
+                // play anim 1 dagger
+            }
+            else
+            {
+                // play anim 1 dagger
+            }
         }
+        
+        Attack(playerRoll);
         
         Debug.Log("Enemy now has " + target._stats["hitPoints"] + " out of " + target._stats["totalHitPoints"]);
         return playerRoll;
@@ -197,10 +211,10 @@ public class Entity : MonoBehaviour
 
     private void Attack(int dmg)
     {
-        Debug.Log(target.type + " has: " + target._stats["hitPoints"]);
         target._stats["hitPoints"] -= dmg;
-        Debug.Log(target.type + " has: " + target._stats["hitPoints"]);
 
+        Invoke("updateHpBar", 1.0f);
+        
         if (target._stats["hitPoints"] <= 0)
         {
             target.Die();
@@ -212,5 +226,11 @@ public class Entity : MonoBehaviour
         entityDiedEvent.Invoke(isPlayer);
         dead = true;
         // this.gameObject.GetComponent<Animator>().Play("Die");
+    }
+
+    private void updateHpBar()
+    {
+        float percentage = (float)target._stats["hitPoints"] / (float)target._stats["totalHitPoints"];
+        target.hpBar.anchorMax = new Vector2(percentage, target.hpBar.anchorMax.y);
     }
 }

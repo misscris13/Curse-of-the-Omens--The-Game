@@ -46,8 +46,6 @@ public class CombatGameManager : MonoBehaviour
     [SerializeField] private TMP_Text playerHealthTMP;  // TMP for the player's health
     [SerializeField] private Animator messageAnimator;  // Animator for messages
     [SerializeField] private Animator fadeAnimator;     // Animator for black fade
-    [SerializeField] private TMP_Text playerDamage;     // Shows the damage dealt (player)
-    [SerializeField] private TMP_Text enemyDamage;     // Shows the damage dealt (enemy)
 
     void Start()
     {
@@ -150,16 +148,16 @@ public class CombatGameManager : MonoBehaviour
                     playerEntity.gameObject.GetComponent<Animator>().Play(playerEntity.type + _attackType + "Attack");
                     _playerRoll = playerEntity.KayAttack(_attackType, _playerRoll);
                     
-                    playerDamage.text = "" + _playerRoll;
-                    playerDamage.gameObject.GetComponent<Animator>().Play("Float");
-                    
+                    currentEntity.Item2.target.dmgText.text = "" + _playerRoll;
+                    currentEntity.Item2.target.dmgText.gameObject.GetComponent<Animator>().Play("Float");
+
                     Invoke("NextTurn", 1.0f);
                 }
             }
         }
     }
 
-    // Receives a string and changes the on screen message, then disappears in 3 seconds
+    // Receives a string and changes the on screen message, then disappears in 2 seconds
     private void ChangeMessage(string msg)
     {
         messageTMP.text = msg;
@@ -268,8 +266,8 @@ public class CombatGameManager : MonoBehaviour
         
         playerHealthTMP.text = playerEntity._stats["hitPoints"] + "/" + playerEntity._stats["totalHitPoints"];
 
-        enemyDamage.text = "" + dmg;
-        enemyDamage.gameObject.GetComponent<Animator>().Play("Float");
+        currentEntity.Item2.target.dmgText.text = "" + dmg;
+        currentEntity.Item2.target.dmgText.gameObject.GetComponent<Animator>().Play("Float");
         
         Invoke("NextTurn", 1.0f);
     }
