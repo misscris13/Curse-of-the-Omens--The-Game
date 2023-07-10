@@ -61,7 +61,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.DeleteAll();
     }
 
-    private void Exit()
+    public void Exit()
     {
         Application.Quit();
     }
