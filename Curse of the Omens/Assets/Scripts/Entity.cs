@@ -30,7 +30,10 @@ public class Entity : MonoBehaviour
     public Tuple<string, float> _weapon;        // Weapon: name, damage modifier
 
     [SerializeField] public RectTransform hpBar;
-    [SerializeField] public TMP_Text dmgText;    
+    [SerializeField] public TMP_Text dmgText;
+
+    [SerializeField] private AudioClip kayBasicAttack;
+    [SerializeField] private AudioClip kaySkillAttack;
     
     [SerializeField]
     private UnityEvent<bool> entityDiedEvent;
@@ -179,22 +182,28 @@ public class Entity : MonoBehaviour
             if (rnd <= 0.1)
             {
                 playerRoll *= 3;
-                // play anim 3 dagger
+                target.gameObject.GetComponent<Animator>().Play(target.type + "3Hit");
             }
             else if (rnd <= 0.3)
             {
                 playerRoll *= 2;
-                // play anim 2 dagger
+                target.gameObject.GetComponent<Animator>().Play(target.type + "2Hit");
             }
             else if (rnd > 0.7)
             {
                 playerRoll /= 2;
-                // play anim 1 dagger
+                target.gameObject.GetComponent<Animator>().Play(target.type + "Hit");
             }
             else
             {
-                // play anim 1 dagger
+                target.gameObject.GetComponent<Animator>().Play(target.type + "Hit");
             }
+
+            GetComponent<AudioSource>().clip = kaySkillAttack;
+        }
+        else
+        {
+            GetComponent<AudioSource>().clip = kayBasicAttack;
         }
         
         Attack(playerRoll);
@@ -225,7 +234,6 @@ public class Entity : MonoBehaviour
     {
         entityDiedEvent.Invoke(isPlayer);
         dead = true;
-        // this.gameObject.GetComponent<Animator>().Play("Die");
     }
 
     private void updateHpBar()

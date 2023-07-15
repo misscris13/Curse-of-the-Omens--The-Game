@@ -1515,6 +1515,8 @@ MonoBehaviour:
   target: {fileID: 1948856168}
   hpBar: {fileID: 820262645}
   dmgText: {fileID: 1104173645}
+  kayBasicAttack: {fileID: 8300000, guid: 866b5670725ffda498a8b85a5db8cc1e, type: 3}
+  kaySkillAttack: {fileID: 8300000, guid: 749568b5aaeb8994eb93276b8725ec16, type: 3}
   entityDiedEvent:
     m_PersistentCalls:
       m_Calls:
@@ -4698,6 +4700,8 @@ MonoBehaviour:
   target: {fileID: 672586210}
   hpBar: {fileID: 352907330}
   dmgText: {fileID: 1753201911}
+  kayBasicAttack: {fileID: 0}
+  kaySkillAttack: {fileID: 0}
   entityDiedEvent:
     m_PersistentCalls:
       m_Calls:

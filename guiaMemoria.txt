@@ -1,0 +1,18 @@
+Cap 1: resumen, introduccion (motivacion, objetivos)
+Cap 2: EdA
+Cap 3: especificaciones, coste temporal, coste economico, alcance, division en tareas, perfiles para tareas, Gantt inicialmente paralelizado (equipo 3-5 personas), salarios en funcion del rol asignado, calculo de costes directos ind materiales amortizaciones seguridad social. Para la estimacion temporal puedo preguntar 3-4 compañeros con xp que valoren temporalmente cada tarea (pesimista, objetivo, optimista), analisis de riesgos y viabilidad del proyecto
+Cap 4: analisis diseño, diagramas casos de uso, -> is, parte estetica tambien, de donde he sacado assets graficos?
+Cap 5: implementacion y pruebas (rendimiento, ponerlo en varios pcs distintos carga cpu memoria, y jugabilidad, 5-10 personas diferentes perfiles, analizar cuanto le ha costado averiguar algo), todo lo que he hecho, funcionalidades principales del codigo, de donde he sacado los assets
+Cap 6: conclusiones y trabajo futuro
+Anexo storytelling del videojuego, referenciarlo en la memoria
+
+Estado del arte: apps similares y tecnologías susceptibles de ser utilizadas para el desarrollo
+- aseprite
+- unity
+todas las tecnologias usadas, juegos 2.5d y diferencias, cosas sobre 2.5d
+
+Especificaciones: requisitos user, funcionales, no funcionales, lo que necesita el sistema, "para cumplir todo esto, de las tecnologías vistas en el estado del arte, elijo estas porque x y z"
+
+nada de IAs para generar texto, lo primero que se hace es mirar plagio
+
+en cuanto tenga la memoria medio avanzada (90-100 folios), le paso borrador

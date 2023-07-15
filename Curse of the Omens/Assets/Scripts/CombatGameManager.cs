@@ -150,6 +150,7 @@ public class CombatGameManager : MonoBehaviour
                     
                     currentEntity.Item2.target.dmgText.text = "" + _playerRoll;
                     currentEntity.Item2.target.dmgText.gameObject.GetComponent<Animator>().Play("Float");
+                    currentEntity.Item2.target.gameObject.GetComponent<Animator>().Play(currentEntity.Item2.target.type + "Hit");
 
                     Invoke("NextTurn", 1.0f);
                 }
@@ -245,18 +246,12 @@ public class CombatGameManager : MonoBehaviour
         Debug.Log("Mostrando iniciativas...");
         
         // Show final order
-        ShowInitiativeOrder();
+        // ShowInitiativeOrder();
 
         _currentTurn = 0;
         _initiativeRollsFinished = true;
     }
 
-    // Shows on-screen the current turn order, also showing the current turn
-    private void ShowInitiativeOrder()
-    {
-        // TODO: Implement
-    }
-    
     // Tells the NPC Entity (enemy/ally) to decide its next action
     private void NpcAction()
     {
@@ -268,6 +263,7 @@ public class CombatGameManager : MonoBehaviour
 
         currentEntity.Item2.target.dmgText.text = "" + dmg;
         currentEntity.Item2.target.dmgText.gameObject.GetComponent<Animator>().Play("Float");
+        currentEntity.Item2.target.gameObject.GetComponent<Animator>().Play(currentEntity.Item2.target.type + "Hit");
         
         Invoke("NextTurn", 1.0f);
     }
@@ -323,6 +319,8 @@ public class CombatGameManager : MonoBehaviour
             Debug.Log("An enemy died...");
             deadEnemies++;
 
+            Invoke("EnemyDeathAnimation", 0.5f);
+            
             if (deadEnemies == enemyList.Length)
             {
                 Debug.Log("Every enemy died...");
@@ -330,12 +328,17 @@ public class CombatGameManager : MonoBehaviour
                 // PlayerPrefs.SetInt("hitPoints", playerEntity._stats["hitPoints"]);
                 // PlayerPrefs.Save();
                 
-                Invoke("FadeOut", 1.0f);
-                Invoke("LoadEndScene", 2.0f);
+                Invoke("FadeOut", 3.0f);
+                Invoke("LoadEndScene", 4.0f);
             }
         }
     }
 
+    private void EnemyDeathAnimation()
+    {
+        enemyList[deadEnemies - 1].GetComponent<Animator>().Play(enemyList[deadEnemies - 1].type + "Death");
+    }
+    
     private void FadeOut()
     {
         playerAttack.gameObject.SetActive(false);
