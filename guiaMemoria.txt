@@ -16,3 +16,38 @@ Especificaciones: requisitos user, funcionales, no funcionales, lo que necesita 
 nada de IAs para generar texto, lo primero que se hace es mirar plagio
 
 en cuanto tenga la memoria medio avanzada (90-100 folios), le paso borrador
+
+
+-------------
+ESTIMACION COSTES
+costes directos: directamente relacionados con el proyecto, sacar de chatgpt
+costes indirectos: no relacionadas con el proyecto (gastos de luz, administracion etc)
+del excel hacer solo overhead (MAX 40%) y estimacion
+estimacion: personal, horas y lo que cobra
+subcontrataciones no hace falta (ej. publicidad)
+equipamiento: pcs para el equipo y tal
+amortizacion: pcs 4 años amortizacion
+poner de donde sacas los sueldos de las personas
+-------------
+ESTIMACION TIEMPO -> MS project diagrama de gantt
+sacar tareas de chatgpt, duracion de tareas
+pesimista objetivo y optimista: tiempo que quieras como objetivo, optimista += 1, pesimista -=2 o 3
+
+para gantt meter el t esperado
+--------------
+DISEÑO
+Assets
+
+DIAGRAMAS
+- de clases (ver Tevi)
+- de casos de uso (menu, cosas uqe puede hacer el personaje) -> descripcion avanzada de casos de uso, una tabla por cada CdU
+- de flujo
+
+--------------
+IMPLEMENTACION
+Codigo y funciones, partes importantes solo
+
+
+
+A MENCIONAR
+- todo el apartado de costes y plan temporal, esta bien?
